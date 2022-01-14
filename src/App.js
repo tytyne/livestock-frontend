@@ -3,57 +3,19 @@ import classNames from 'classnames';
 import { Route, useHistory } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 
+
 import { AppTopbar } from './AppTopbar';
 import { AppFooter } from './AppFooter';
 import { AppMenu } from './AppMenu';
 import { AppProfile } from './AppProfile';
 import { AppConfig } from './AppConfig';
+import {AppRouter} from './AppRouter'
 
-import { Dashboard } from './components/Dashboard';
-import { ButtonDemo } from './components/ButtonDemo';
-import { ChartDemo } from './components/ChartDemo';
-import { Documentation } from './components/Documentation';
-import { FileDemo } from './components/FileDemo';
-import { FloatLabelDemo } from './components/FloatLabelDemo';
-import { FormLayoutDemo } from './components/FormLayoutDemo';
-import { InputDemo } from './components/InputDemo';
-import { ListDemo } from './components/ListDemo';
-import { MenuDemo } from './components/MenuDemo';
-import { MessagesDemo } from './components/MessagesDemo';
-import { MiscDemo } from './components/MiscDemo';
-import { OverlayDemo } from './components/OverlayDemo';
-import { PanelDemo } from './components/PanelDemo';
-import { TableDemo } from './components/TableDemo';
-import { TreeDemo } from './components/TreeDemo';
-import { InvalidStateDemo } from './components/InvalidStateDemo';
 
-import { Calendar } from './pages/Calendar';
-import { Crud } from './pages/Crud';
-import { EmptyPage } from './pages/EmptyPage';
-
-import { DisplayDemo } from './utilities/DisplayDemo';
-import { ElevationDemo } from './utilities/ElevationDemo';
-import { FlexBoxDemo } from './utilities/FlexBoxDemo';
-import { GridDemo } from './utilities/GridDemo';
-import { IconsDemo } from './utilities/IconsDemo';
-import { SpacingDemo } from './utilities/SpacingDemo';
-import { TextDemo } from './utilities/TextDemo';
-import { TypographyDemo } from './utilities/TypographyDemo';
-import { TimelineDemo } from './utilities/TimelineDemo';
 
 import PrimeReact from 'primereact/api';
 
-import 'primereact/resources/themes/saga-blue/theme.css';
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
-import 'primeflex/primeflex.css';
-import 'prismjs/themes/prism-coy.css';
-import '@fullcalendar/core/main.css';
-import '@fullcalendar/daygrid/main.css';
-import '@fullcalendar/timegrid/main.css';
-import './layout/flags/flags.css';
-import './layout/layout.scss';
-import './App.scss';
+
 
 const App = () => {
 
@@ -120,6 +82,36 @@ const App = () => {
 
     const menu = [
         { label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' },
+
+        {label: 'Farmers', icon: 'pi pi-fw pi-user',
+        items: [
+            { label: 'Add Farmer', icon: 'pi pi-fw pi-id-card', to: '/addFarmer' },
+            { label: 'All Farmers', icon: 'pi pi-fw pi-user-edit', to: '/allFarmers' },
+        ]
+        },
+        {label: 'Animals', icon: 'pi pi-fw pi-spinner',
+        items: [
+            { label: 'Add Animal', icon: 'pi pi-fw pi-id-card', to: '/addAnimal' },
+            { label: 'All Animals', icon: 'pi pi-fw pi-check-square', to: '/allAnimals' },
+        ]
+        },
+        {label: 'Operations', icon: 'pi pi-fw pi-sitemap',
+        items: [
+            { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/formlayout' },
+            { label: 'Input', icon: 'pi pi-fw pi-check-square', to: '/input' },
+        ]
+        },
+       
+        {label: 'Schedules', icon: 'pi pi-fw pi-calendar' ,to: '/calendar'},
+
+        {label: 'Evaluation', icon: 'pi pi-fw pi-eye', to:'/input'},
+        {label: 'Reports', icon: 'pi pi-fw pi-book',
+        items: [
+            { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/formlayout' },
+            { label: 'Input', icon: 'pi pi-fw pi-check-square', to: '/input' },
+        ]
+        },
+
         {
             label: 'UI Kit', icon: 'pi pi-fw pi-sitemap',
             items: [
@@ -229,7 +221,7 @@ const App = () => {
         return sidebarActive;
     };
 
-    const logo = layoutColorMode === 'dark' ? 'assets/layout/images/logo-white.svg' : 'assets/layout/images/logo.svg';
+    const logo = layoutColorMode === 'dark' ? 'assets/layout/images/logo-live.png' : 'assets/layout/images/logo-live.png';
 
     const wrapperClass = classNames('layout-wrapper', {
         'layout-overlay': layoutMode === 'overlay',
@@ -245,6 +237,9 @@ const App = () => {
     });
 
     return (
+        <>
+        {/* <Route path="/login" exact component={Login} />
+        <Route path="/reset" component={Reset} /> */}
         <div className={wrapperClass} onClick={onWrapperClick}>
             <AppTopbar onToggleMenu={onToggleMenu} />
 
@@ -257,45 +252,17 @@ const App = () => {
                     <AppMenu model={menu} onMenuItemClick={onMenuItemClick} />
                 </div>
             </CSSTransition>
-
+         
             <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
                 layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
 
-            <div className="layout-main">
-                <Route path="/" exact component={Dashboard} />
-                <Route path="/formlayout" component={FormLayoutDemo} />
-                <Route path="/input" component={InputDemo} />
-                <Route path="/floatlabel" component={FloatLabelDemo} />
-                <Route path="/invalidstate" component={InvalidStateDemo} />
-                <Route path="/button" component={ButtonDemo} />
-                <Route path="/table" component={TableDemo} />
-                <Route path="/list" component={ListDemo} />
-                <Route path="/tree" component={TreeDemo} />
-                <Route path="/panel" component={PanelDemo} />
-                <Route path="/overlay" component={OverlayDemo} />
-                <Route path="/menu" component={MenuDemo} />
-                <Route path="/messages" component={MessagesDemo} />
-                <Route path="/file" component={FileDemo} />
-                <Route path="/chart" component={ChartDemo} />
-                <Route path="/misc" component={MiscDemo} />
-                <Route path="/display" component={DisplayDemo} />
-                <Route path="/elevation" component={ElevationDemo} />
-                <Route path="/flexbox" component={FlexBoxDemo} />
-                <Route path="/icons" component={IconsDemo} />
-                <Route path="/grid" component={GridDemo} />
-                <Route path="/spacing" component={SpacingDemo} />
-                <Route path="/typography" component={TypographyDemo} />
-                <Route path="/text" component={TextDemo} />
-                <Route path="/calendar" component={Calendar} />
-                <Route path="/timeline" component={TimelineDemo} />
-                <Route path="/crud" component={Crud} />
-                <Route path="/empty" component={EmptyPage} />
-                <Route path="/documentation" component={Documentation} />
-            </div>
-
+            <>
+            <AppRouter />
+            </>
             <AppFooter />
 
         </div>
+        </>
     );
 
 }

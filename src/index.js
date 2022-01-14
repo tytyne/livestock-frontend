@@ -2,16 +2,23 @@ import 'react-app-polyfill/ie11';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import Auth from './Auth'
 //import * as serviceWorker from './serviceWorker';
-import { HashRouter } from 'react-router-dom'
+import { BrowserRouter , Switch, Route } from "react-router-dom";
 import ScrollToTop from './ScrollToTop';
 
 ReactDOM.render(
-    <HashRouter>
-        <ScrollToTop>
+    <BrowserRouter>
+    <Auth/>
+  
+    <Switch>
+    <ScrollToTop>
             <App></App>
         </ScrollToTop>
-    </HashRouter>,
+        </Switch>
+    
+       
+    </BrowserRouter>,
     document.getElementById('root')
 );
 

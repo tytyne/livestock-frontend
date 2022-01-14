@@ -25,23 +25,32 @@ $menuitemActiveBgColor:#ffffff;
 $menuitemBorderColor:rgba(207, 211, 224, 0.6);
 
 /* Menu Dark */
-$menuDarkBgColorFirst:#4d505b;
-$menuDarkBgColorLast:#3b3e47;
-$menuitemDarkColor:#ffffff;
+// $menuDarkBgColorFirst:#565b4d;
+// $menuDarkBgColorLast:#3b3e47;
+$menuDarkBgColorFirst:#ffff;
+$menuDarkBgColorLast:#ffff;
+// $menuitemDarkColor:#ffffff;
+$menuitemDarkColor:black;
+// $menuitemDarkColor:#2e3035;
 $menuitemDarkHoverColor:#0388e5;
 $menuitemDarkActiveColor:#0388e5;
-$menuitemDarkActiveBgColor:#2e3035;
+// $menuitemDarkActiveBgColor:#2e3531;
+$menuitemDarkActiveBgColor:#ffff;
 $menuitemDarkBorderColor:rgba(52, 56, 65, 0.6);
 
 /* Topbar */
-$topbarLeftBgColor:#0388E5;
-$topbarRightBgColor:#07BDF4;
+// $topbarLeftBgColor:#0388E5;
+$topbarLeftBgColor:#ffff;
+$topbarRightBgColor:#ffff;
 $topbarItemBadgeBgColor:#ef6262;
 $topbarItemBadgeColor:#ffffff;
-$topbarItemColor:#ffffff;
+// $topbarItemColor:#ffffff;
+$topbarItemColor:#1fa1fc;
 $topbarItemHoverColor:#c3e8fb;
-$topbarSearchInputBorderBottomColor:#ffffff;
-$topbarSearchInputColor:#ffffff;
+// $topbarSearchInputBorderBottomColor:#ffffff;
+$topbarSearchInputBorderBottomColor:brown;
+// $topbarSearchInputColor:#ffffff;
+$topbarSearchInputColor:pink;
 
 /* Footer */
 $footerBgColor:#ffffff;
