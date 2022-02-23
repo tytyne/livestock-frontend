@@ -12,110 +12,127 @@ import { RadioButton } from 'primereact/radiobutton';
 import { InputNumber } from 'primereact/inputnumber';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-import { ProductService } from '../../service/ProductService'
-import {FarmerService} from "../../service/FarmerService"
+import {AnimalService} from "../../service/AnimalService"
 
 export const AllAnimals = () => {
 
-    let emptyProduct = {
+ 
+    let emptyAnimal = {
         id: null,
-        name: '',
-        image: null,
-        description: '',
-        category: null,
-        price: 0,
-        quantity: 0,
-        rating: 0,
-        inventoryStatus: 'INSTOCK'
+        farmerId:" ",
+        earring_num:"",
+        nid:"",
+        animal_cat:"",
+        birthdate:"",
+        birthkgs:" ",
+        parent:" ",
+        expected_exit:" ",
+        expected_exit_kgs:""
     };
-   
-
-    const [products, setProducts] = useState(null);
-    const [productDialog, setProductDialog] = useState(false);
-    const [deleteProductDialog, setDeleteProductDialog] = useState(false);
-    const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
-    const [product, setProduct] = useState(emptyProduct);
-    const [selectedProducts, setSelectedProducts] = useState(null);
+ 
+    
+    //my own codes
+    const [animals, setAnimals] = useState(null);
+    const [animalDialog, setAnimalDialog] = useState(false);
+    const [deleteAnimalDialog, setDeleteAnimalDialog] = useState(false);
+    const [deleteAnimalsDialog, setDeleteAnimalsDialog] = useState(false);
+    const [animal, setAnimal] = useState(emptyAnimal);
+    const [selectedAnimals, setSelectedAnimals] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
     const dt = useRef(null);
 
+   
+
+    //my codes
     useEffect(() => {
-        const productService = new ProductService();
-        productService.getProducts().then(data => setProducts(data));
+        const animalService = new AnimalService();
+        animalService.getAnimalServices().then((data)=>{
+            console.log("check dataa",data)
+            setAnimals(data.data)
+        
+        })
+
     }, []);
 
-    const formatCurrency = (value) => {
-        return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+    
+
+    //my own codes
+    const openNew = () => {
+        setAnimal(emptyAnimal);
+        setSubmitted(false);
+        setAnimalDialog(true);
     }
 
-    const openNew = () => {
-        setProduct(emptyProduct);
-        setSubmitted(false);
-        setProductDialog(true);
-    }
+   
 
     const hideDialog = () => {
         setSubmitted(false);
-        setProductDialog(false);
+        setAnimalDialog(false);
+    }
+    
+
+    //my own codes
+    const hideDeleteAnimalDialog = () => {
+        setDeleteAnimalDialog(false);
     }
 
-    const hideDeleteProductDialog = () => {
-        setDeleteProductDialog(false);
-    }
+    // const hideDeleteProductsDialog = () => {
+    //     setDeleteProductsDialog(false);
+    // }
 
-    const hideDeleteProductsDialog = () => {
-        setDeleteProductsDialog(false);
-    }
+    //my own codes
 
-    const saveProduct = () => {
+    const hideDeleteAnimalsDialog = () => {
+        setDeleteAnimalsDialog(false);
+    }
+    const saveAnimal = () => {
         setSubmitted(true);
 
-        if (product.name.trim()) {
-            let _products = [...products];
-            let _product = { ...product };
-            if (product.id) {
-                const index = findIndexById(product.id);
+        if (animal.name.trim()) {
+            let _animals = [...animals];
+            let _animal = { ...animal };
+            if (animal.id) {
+                const index = findIndexById(animal.id);
 
-                _products[index] = _product;
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
+                _animal[index] = _animal;
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Animal Updated', life: 3000 });
             }
             else {
-                _product.id = createId();
-                _product.image = 'product-placeholder.svg';
-                _products.push(_product);
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
+                _animal.id = createId();
+                _animals.push(_animal);
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Animal Created', life: 3000 });
             }
 
-            setProducts(_products);
-            setProductDialog(false);
-            setProduct(emptyProduct);
+            setAnimals(_animals);
+            setAnimalDialog(false);
+            setAnimal(emptyAnimal);
         }
     }
 
-    const editProduct = (product) => {
-        setProduct({ ...product });
-        setProductDialog(true);
+    const editAnimal = (animal) => {
+        setAnimal({ ...animal });
+        setAnimalDialog(true);
     }
 
-    const confirmDeleteProduct = (product) => {
-        setProduct(product);
-        setDeleteProductDialog(true);
+    const confirmDeleteAnimal = (animal) => {
+        setAnimal(animal);
+        setDeleteAnimalDialog(true);
     }
 
-    const deleteProduct = () => {
-        let _products = products.filter(val => val.id !== product.id);
-        setProducts(_products);
-        setDeleteProductDialog(false);
-        setProduct(emptyProduct);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
+    const deleteAnimal = () => {
+        let _animals = animals.filter(val => val.id !== animal.id);
+        setAnimals(_animals);
+        setDeleteAnimalDialog(false);
+        setAnimal(emptyAnimal);
+        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Animal Deleted', life: 3000 });
     }
 
     const findIndexById = (id) => {
         let index = -1;
-        for (let i = 0; i < products.length; i++) {
-            if (products[i].id === id) {
+        for (let i = 0; i < animals.length; i++) {
+            if (animals[i].id === id) {
                 index = i;
                 break;
             }
@@ -138,44 +155,44 @@ export const AllAnimals = () => {
     }
 
     const confirmDeleteSelected = () => {
-        setDeleteProductsDialog(true);
+        setDeleteAnimalsDialog(true);
     }
 
-    const deleteSelectedProducts = () => {
-        let _products = products.filter(val => !selectedProducts.includes(val));
-        setProducts(_products);
-        setDeleteProductsDialog(false);
-        setSelectedProducts(null);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
+    const deleteSelectedAnimals = () => {
+        let _animals = animals.filter(val => !selectedAnimals.includes(val));
+        setAnimals(_animals);
+        setDeleteAnimalsDialog(false);
+        setSelectedAnimals(null);
+        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Animals Deleted', life: 3000 });
     }
 
     const onCategoryChange = (e) => {
-        let _product = { ...product };
-        _product['category'] = e.value;
-        setProduct(_product);
+        let _animal = { ...animal };
+        _animal['category'] = e.value;
+        setAnimal(_animal);
     }
 
     const onInputChange = (e, name) => {
         const val = (e.target && e.target.value) || '';
-        let _product = { ...product };
-        _product[`${name}`] = val;
+        let _animal = { ...animal };
+        _animal[`${name}`] = val;
 
-        setProduct(_product);
+        setAnimal(_animal);
     }
 
     const onInputNumberChange = (e, name) => {
         const val = e.value || 0;
-        let _product = { ...product };
-        _product[`${name}`] = val;
+        let _animal = { ...animal };
+        _animal[`${name}`] = val;
 
-        setProduct(_product);
+        setAnimal(_animal);
     }
 
     const leftToolbarTemplate = () => {
         return (
             <React.Fragment>
                 <Button label="New" icon="pi pi-plus" className="p-button-success p-mr-2" onClick={openNew} />
-                <Button label="Delete" icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected} disabled={!selectedProducts || !selectedProducts.length} />
+                <Button label="Delete" icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected} disabled={!selectedAnimals || !selectedAnimals.length} />
             </React.Fragment>
         )
     }
@@ -189,81 +206,79 @@ export const AllAnimals = () => {
         )
     }
 
-    const codeBodyTemplate = (rowData) => {
+    const earingNumberBodyTemplate = (rowData) => {
         return (
             <>
-                <span className="p-column-title">Code</span>
-                {rowData.code}
+                <span className="p-column-title">Earring Number</span>
+                {rowData.earring_num}
             </>
         );
     }
 
-    const nameBodyTemplate = (rowData) => {
+    const nidBodyTemplate = (rowData) => {
         return (
             <>
-                <span className="p-column-title">Name</span>
-                {rowData.name}
+                <span className="p-column-title">Lastname</span>
+                {rowData.lastname}
             </>
         );
     }
-
-    const imageBodyTemplate = (rowData) => {
+    const animalCategoryBodyTemplate = (rowData) => {
         return (
             <>
-                <span className="p-column-title">Image</span>
-                <img src={`assets/demo/images/product/${rowData.image}`} alt={rowData.image} className="product-image" />
-            </>
-        )
-    }
-
-    const priceBodyTemplate = (rowData) => {
-        return (
-            <>
-                <span className="p-column-title">Price</span>
-                {formatCurrency(rowData.price)}
+                <span className="p-column-title">animal category</span>
+                {rowData.animal_cat}
             </>
         );
     }
+ 
 
-    const categoryBodyTemplate = (rowData) => {
+    const BirthdateBodyTemplate = (rowData) => {
         return (
             <>
-                <span className="p-column-title">Category</span>
-                {rowData.category}
+                <span className="p-column-title">Birthdats</span>
+                {rowData.birthdate}
             </>
         );
     }
-
-    const ratingBodyTemplate = (rowData) => {
+    const BirthKgsBodyTemplate = (rowData) => {
         return (
             <>
-                <span className="p-column-title">Reviews</span>
-                <Rating value={rowData.rating} readonly cancel={false} />
+                <span className="p-column-title">Birthdats</span>
+                {rowData.birthkgs}
             </>
         );
     }
-
-    const statusBodyTemplate = (rowData) => {
+    const expectedExitBodyTemplate = (rowData) => {
         return (
             <>
-                <span className="p-column-title">Status</span>
-                <span className={`product-badge status-${rowData.inventoryStatus.toLowerCase()}`}>{rowData.inventoryStatus}</span>
+                <span className="p-column-title">Expected Exit</span>
+                {rowData.expected_exit}
             </>
-        )
+        );
     }
+    const expectedExitKgsBodyTemplate = (rowData) => {
+        return (
+            <>
+                <span className="p-column-title">Expected Exit</span>
+                {rowData.expected_exit_kgs}
+            </>
+        );
+    }
+  
 
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="actions">
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-success p-mr-2" onClick={() => editProduct(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning" onClick={() => confirmDeleteProduct(rowData)} />
+                <Button icon="pi pi-pencil" className="p-button-rounded p-button-success p-mr-2" onClick={() => editAnimal(rowData)} />
+                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning" onClick={() => confirmDeleteAnimal(rowData)} />
             </div>
         );
     }
 
     const header = (
         <div className="table-header">
-            <h5 className="p-m-0">Manage Products</h5>
+            <h5 className="p-m-0">Manage Animals</h5>
             <span className="p-input-icon-left">
                 <i className="pi pi-search" />
                 <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
@@ -271,22 +286,22 @@ export const AllAnimals = () => {
         </div>
     );
 
-    const productDialogFooter = (
+    const animalDialogFooter = (
         <>
             <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-            <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveProduct} />
+            <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveAnimal} />
         </>
     );
-    const deleteProductDialogFooter = (
+    const deleteAnimalDialogFooter = (
         <>
-            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductDialog} />
-            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteProduct} />
+            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteAnimalDialog} />
+            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteAnimal} />
         </>
     );
-    const deleteProductsDialogFooter = (
+    const deleteAnimalsDialogFooter = (
         <>
-            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductsDialog} />
-            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedProducts} />
+            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteAnimalsDialog} />
+            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedAnimals} />
         </>
     );
 
@@ -297,79 +312,55 @@ export const AllAnimals = () => {
                     <Toast ref={toast} />
                     <Toolbar className="p-mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
 
-                    <DataTable ref={dt} value={products} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
+                    <DataTable ref={dt} value={animals} selection={selectedAnimals} onSelectionChange={(e) => setSelectedAnimals(e.value)}
                         dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
-                        globalFilter={globalFilter} emptyMessage="No products found." header={header}>
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} animals"
+                        globalFilter={globalFilter} emptyMessage="No animals found." header={header}>
                         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-                        <Column field="code" header="Code" sortable body={codeBodyTemplate}></Column>
-                        <Column field="name" header="Name" sortable body={nameBodyTemplate}></Column>
-                        <Column header="Image" body={imageBodyTemplate}></Column>
-                        <Column field="price" header="Price" body={priceBodyTemplate} sortable></Column>
-                        <Column field="category" header="Category" sortable body={categoryBodyTemplate}></Column>
-                        <Column field="rating" header="Reviews" body={ratingBodyTemplate} sortable></Column>
-                        <Column field="inventoryStatus" header="Status" body={statusBodyTemplate} sortable></Column>
+                        <Column field="earring_num" header="Earring" sortable body={earingNumberBodyTemplate}></Column>
+                        <Column field="nid" header="Owner" sortable body={nidBodyTemplate}></Column>
+                        <Column field="animal-cat" header="animal Cat" sortable body={animalCategoryBodyTemplate}></Column>
+                        <Column field="birthdate" header="Birthdate" sortable body={BirthdateBodyTemplate}></Column>
+                        <Column field="birthkgs" header="Birth kgs" sortable body={BirthKgsBodyTemplate}></Column>
+                        <Column field="expected_exit_kgs" header="Expected Exit kgs" sortable body={expectedExitKgsBodyTemplate}></Column>
+                        {/* <Column field="inventoryStatus" header="Status" body={statusBodyTemplate} sortable></Column> */}
                         <Column body={actionBodyTemplate}></Column>
                     </DataTable>
 
-                    <Dialog visible={productDialog} style={{ width: '450px' }} header="Product Details" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
-                        {product.image && <img src={`assets/demo/images/product/${product.image}`} alt={product.image} className="product-image" />}
+                    <Dialog visible={animalDialog} style={{ width: '450px' }} header="Animal Details" modal className="p-fluid" footer={animalDialogFooter} onHide={hideDialog}>
+                       
                         <div className="p-field">
-                            <label htmlFor="name">Name</label>
-                            <InputText id="name" value={product.name} onChange={(e) => onInputChange(e, 'name')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.name })} />
-                            {submitted && !product.name && <small className="p-invalid">Name is required.</small>}
+                            <label htmlFor="earring_num">earring_num</label>
+                            <InputText id="earring_num" value={animal.earring_num} onChange={(e) => onInputChange(e, 'earring_num')} required autoFocus className={classNames({ 'p-invalid': submitted && !animal.earring_num })} />
+                            {submitted && !animal.earring_num && <small className="p-invalid">Animal is required.</small>}
                         </div>
                         <div className="p-field">
-                            <label htmlFor="description">Description</label>
-                            <InputTextarea id="description" value={product.description} onChange={(e) => onInputChange(e, 'description')} required rows={3} cols={20} />
+                            <label htmlFor="nid">nid</label>
+                            <InputText id="nid" value={animal.nid} onChange={(e) => onInputChange(e, 'nid')} required rows={3} cols={20} />
                         </div>
+                        <div className="p-field">
+                            <label htmlFor="animal_cat">animal_cat</label>
+                            <InputText id="animal_cat" value={animal.animal_cat} onChange={(e) => onInputChange(e, 'animal_cat')} required rows={3} cols={20} />
+                        </div>
+                        <div className="expected_exit">
+                            <label htmlFor="expected_exit">expected_exit</label>
+                            <InputText id="expected_exit" value={animal.expected_exit} onChange={(e) => onInputChange(e, 'expected_exit')} required rows={3} cols={20} />
+                        </div>
+                        
+                    </Dialog>
 
-                        <div className="p-field">
-                            <label className="p-mb-3">Category</label>
-                            <div className="p-formgrid p-grid">
-                                <div className="p-field-radiobutton p-col-6">
-                                    <RadioButton inputId="category1" name="category" value="Accessories" onChange={onCategoryChange} checked={product.category === 'Accessories'} />
-                                    <label htmlFor="category1">Accessories</label>
-                                </div>
-                                <div className="p-field-radiobutton p-col-6">
-                                    <RadioButton inputId="category2" name="category" value="Clothing" onChange={onCategoryChange} checked={product.category === 'Clothing'} />
-                                    <label htmlFor="category2">Clothing</label>
-                                </div>
-                                <div className="p-field-radiobutton p-col-6">
-                                    <RadioButton inputId="category3" name="category" value="Electronics" onChange={onCategoryChange} checked={product.category === 'Electronics'} />
-                                    <label htmlFor="category3">Electronics</label>
-                                </div>
-                                <div className="p-field-radiobutton p-col-6">
-                                    <RadioButton inputId="category4" name="category" value="Fitness" onChange={onCategoryChange} checked={product.category === 'Fitness'} />
-                                    <label htmlFor="category4">Fitness</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="p-formgrid p-grid">
-                            <div className="p-field p-col">
-                                <label htmlFor="price">Price</label>
-                                <InputNumber id="price" value={product.price} onValueChange={(e) => onInputNumberChange(e, 'price')} mode="currency" currency="USD" locale="en-US" />
-                            </div>
-                            <div className="p-field p-col">
-                                <label htmlFor="quantity">Quantity</label>
-                                <InputNumber id="quantity" value={product.quantity} onValueChange={(e) => onInputNumberChange(e, 'quantity')} integeronly />
-                            </div>
+                    <Dialog visible={deleteAnimalDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteAnimalDialogFooter} onHide={hideDeleteAnimalDialog}>
+                        <div className="confirmation-content">
+                            <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
+                            {animal && <span>Are you sure you want to delete <b>{animal.nid}</b>?</span>}
                         </div>
                     </Dialog>
 
-                    <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
+                    <Dialog visible={deleteAnimalsDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteAnimalsDialogFooter} onHide={hideDeleteAnimalsDialog}>
                         <div className="confirmation-content">
                             <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
-                            {product && <span>Are you sure you want to delete <b>{product.name}</b>?</span>}
-                        </div>
-                    </Dialog>
-
-                    <Dialog visible={deleteProductsDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductsDialogFooter} onHide={hideDeleteProductsDialog}>
-                        <div className="confirmation-content">
-                            <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
-                            {product && <span>Are you sure you want to delete the selected products?</span>}
+                            {animal && <span>Are you sure you want to delete the selected animals?</span>}
                         </div>
                     </Dialog>
                 </div>

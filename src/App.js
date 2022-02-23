@@ -97,8 +97,8 @@ const App = () => {
         },
         {label: 'Operations', icon: 'pi pi-fw pi-sitemap',
         items: [
-            { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/formlayout' },
-            { label: 'Input', icon: 'pi pi-fw pi-check-square', to: '/input' },
+            { label: 'Add Opeartion', icon: 'pi pi-fw pi-id-card', to: '/formlayout' },
+            { label: 'All operations', icon: 'pi pi-fw pi-check-square', to: '/allOperations' },
         ]
         },
        

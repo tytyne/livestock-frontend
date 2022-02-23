@@ -15,10 +15,11 @@ import {AddFArmer} from './myPages/Farmers/AddFarmer';
 import {AllFarmers} from './myPages/Farmers/AllFarmers';
 import {AddAnimal} from './myPages/Animals/AddAnimal';
 import {AllAnimals} from './myPages/Animals/AllAnimals';
+import{AllOperations} from "./myPages/operations/AllOperations"
 
 // end of modified
 // authentication
-import{Register} from './myPages/Authentication/Register';
+import Register from './myPages/Authentication/Register';
 import {Login} from './myPages/Authentication/Login';
 import{Forgot} from './myPages/Authentication/Forgot_password';
 import {Reset} from './myPages/Authentication/Reset_password'
@@ -109,6 +110,7 @@ return(
     <Route  path="/allFarmers" component={AllFarmers} />
     <Route  path="/addAnimal" component={AddAnimal} />
     <Route  path="/allAnimals" component={AllAnimals} />
+    <Route  path="/allOperations" component={AllOperations} />
 </div>
 )
 

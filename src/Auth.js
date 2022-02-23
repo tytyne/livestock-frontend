@@ -4,12 +4,12 @@ import classNames from 'classnames';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 // authentication
-import{Register} from './myPages/Authentication/Register';
+import Register from './myPages/Authentication/Register';
 import {Login} from './myPages/Authentication/Login';
 import{Forgot} from './myPages/Authentication/Forgot_password';
 import {Reset} from './myPages/Authentication/Reset_password'
 
-//end authontication
+//end authantication
 
 const Auth =()=>{
 return(
@@ -24,8 +24,7 @@ return(
     </Switch>
     </BrowserRouter>
          
-// appolo
-// avalon
+
 
   
 )

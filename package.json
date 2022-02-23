@@ -28,8 +28,12 @@
         "react-router-dom": "^5.2.0",
         "react-scripts": "4.0.0",
         "react-transition-group": "^4.4.1",
+        "react-validation": "^3.0.7",
         "redux": "^4.1.2",
-        "redux-thunk": "^2.4.1"
+        "redux-devtools-extension": "^2.13.9",
+        "redux-thunk": "^2.4.1",
+        "rwanda": "^2.1.2",
+        "validator": "^13.7.0"
     },
     "scripts": {
         "start": "react-scripts start",

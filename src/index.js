@@ -2,23 +2,27 @@ import 'react-app-polyfill/ie11';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import { Provider } from "react-redux";
+import store from "./store"
 import Auth from './Auth'
 //import * as serviceWorker from './serviceWorker';
 import { BrowserRouter , Switch, Route } from "react-router-dom";
 import ScrollToTop from './ScrollToTop';
 
 ReactDOM.render(
-    <BrowserRouter>
-    <Auth/>
-  
+    <Provider store={store}>
+         <BrowserRouter>
     <Switch>
+    <Auth/>
+    </Switch>
     <ScrollToTop>
             <App></App>
         </ScrollToTop>
-        </Switch>
+       
     
        
-    </BrowserRouter>,
+    </BrowserRouter>
+    </Provider>,
     document.getElementById('root')
 );
 

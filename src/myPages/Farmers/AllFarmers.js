@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import{useDispatch,useSelector} from "react-redux"
 import classNames from 'classnames';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -14,6 +15,7 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { ProductService } from '../../service/ProductService'
 import {FarmerService} from "../../service/FarmerService"
+import{retreiveFarmers} from "../../actions/farming"
 
 export const AllFarmers = () => {
 
@@ -39,18 +41,25 @@ export const AllFarmers = () => {
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
     const dt = useRef(null);
-
+    const farming = useSelector(state => state.farming);
+    const dispatch = useDispatch();
    
 
     //my codes
     useEffect(() => {
         const farmerService = new FarmerService();
-        farmerService.getFarmers().then(data => setFarmers(data));
-    }, []);
+        farmerService.getAllFarmers().then((data)=>{
+            console.log("check dataa",data)
+            setFarmers(data.data)
+           
+        })
 
-    const formatCurrency = (value) => {
-        return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-    }
+            // dispatch(retreiveFarmers());
+            // setFarmers(farming)
+
+    }, [dispatch]);
+
+    
 
     //my own codes
     const openNew = () => {

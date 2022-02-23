@@ -1,0 +1,15 @@
+export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
+export const REGISTER_FAIL = "REGISTER_FAIL";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAIL = "LOGIN_FAIL";
+export const LOGOUT = "LOGOUT";
+
+export const SET_MESSAGE = "SET_MESSAGE";
+export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
+
+//Farmers
+export const CREATE_FARMER="CREATE_FARMER";
+export const RETREIVE_FARMERS="RETREIVE_FARMERS";
+// Animals
+export const CREATE_ANIMAL="CREATE_ANIMAL";
+export const RETREIVE_ANIMALS="RETREIVE_ANIMALS";

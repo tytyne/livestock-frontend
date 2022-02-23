@@ -17,7 +17,7 @@ export const AppProfile = () => {
                 <img src="assets/layout/images/profile.png" alt="Profile" />
             </div>
             <button className="p-link layout-profile-link" onClick={onClick}>
-                <span className="username">Claire Williams</span>
+                <span className="username">Tytyne Flora</span>
                 <i className="pi pi-fw pi-cog" />
             </button>
             <CSSTransition classNames="p-toggleable-content" timeout={{ enter: 1000, exit: 450 }} in={expanded} unmountOnExit>
