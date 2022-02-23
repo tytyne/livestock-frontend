@@ -1,5 +1,4 @@
-import React from 'react';
-import { InputText } from 'primereact/inputtext';
+import React from "react";
 
 export const AppTopbar = (props) => {
     return (
@@ -8,10 +7,6 @@ export const AppTopbar = (props) => {
                 <span className="pi pi-bars" />
             </button>
             <div className="layout-topbar-icons">
-                {/* <span className="layout-topbar-search">
-                    <InputText type="text" placeholder="Search" />
-                    <span className="layout-topbar-search-icon pi pi-search" />
-                </span> */}
                 <button type="button" className="p-link">
                     <span className="layout-topbar-item-text">Events</span>
                     <span className="layout-topbar-icon pi pi-calendar" />
@@ -28,4 +23,4 @@ export const AppTopbar = (props) => {
             </div>
         </div>
     );
-}
+};
