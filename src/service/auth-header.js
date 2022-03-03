@@ -1,16 +1,23 @@
-export default function authHeader(){
-    const user=JSON.parse(localStorage.getItem('user'))
+// export default function authHeader(){
+//     const user=JSON.parse(localStorage.getItem('user'))
 
-    
-    if(user){
-        return {
-            "Authorization": `Bearer ${user?.token}`,
-            "Content-Type": "Application/json",
-        }
-    }else{
-         return {
-            
-         }
+//     if(user){
+//         return {
+//             "Authorization": `Bearer ${user?.token}`,
+//             "Content-Type": "Application/json",
+//         }
+//     }else{
+//          return {
+
+//          }
+//     }
+
+// }
+export default function authHeader() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user && user.accessToken) {
+        return { Authorization: "Bearer " + user.accessToken };
+    } else {
+        return {};
     }
-    
 }
