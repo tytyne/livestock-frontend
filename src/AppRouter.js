@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, useHistory } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Dashboard } from "./components/Dashboard";
 //modified
@@ -10,35 +10,38 @@ import { AddAnimal } from "./myPages/Animals/AddAnimal";
 import { AllAnimals } from "./myPages/Animals/AllAnimals";
 import { AllOperations } from "./myPages/operations/AllOperations";
 import "./App.scss";
-import Register from "./features/Authentication/Register";
-import { Login } from "./features/Authentication/Login";
-import { Reset } from "./features/Authentication/Reset_password";
-import { Forgot } from "./features/Authentication/Forgot_password";
+import Register from "./features/User/Register";
+import { Login } from "./features/User/Login";
+import { Reset } from "./features/User/Reset_password";
+import { Forgot } from "./features/User/Forgot_password";
 import AppShell from "./AppShell";
 import AppSigmaRoute from "./AppSigmaRoute";
-import { logout } from "./slices/auth";
 import EventBus from "./common/EventBus";
+import { userSelector, clearState, fetchUserBytoken } from "./features/User/UserSlice";
+
 export const AppRouter = (props) => {
-    const { user: currentUser } = useSelector((state) => state.auth);
+    const history = useHistory();
     const dispatch = useDispatch();
-    const logOut = useCallback(() => {
-        dispatch(logout());
-    }, [dispatch]);
+    const { isFetching, isError } = useSelector(userSelector);
     useEffect(() => {
-        if (currentUser) {
-            console.log("state", currentUser);
+        dispatch(fetchUserBytoken({ token: localStorage.getItem("token") }));
+    }, []);
+    const { username, email } = useSelector(userSelector);
+    useEffect(() => {
+        const user = localStorage.getItem("token");
+        if (user) {
+            // dispatch(clearState());
+            history.push("/");
         } else {
-            // setShowModeratorBoard(false);
-            // setShowAdminBoard(false);
-            console.log("state", "props", props.location);
+            dispatch(clearState());
+            history.push("/login");
         }
-        EventBus.on("logout", () => {
-            logOut();
-        });
-        return () => {
-            EventBus.remove("logout");
-        };
-    }, [currentUser, logOut]);
+    }, [isError]);
+    const onLogOut = () => {
+        localStorage.removeItem("token");
+        history.push("/login");
+    };
+
     return (
         <>
             <Switch>

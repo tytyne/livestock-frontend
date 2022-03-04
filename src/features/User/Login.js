@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { InputText } from "primereact/inputtext";
@@ -8,20 +9,14 @@ import { Password } from "primereact/password";
 import { Dialog } from "primereact/dialog";
 import AuthShell from "../../AuthShell";
 import classNames from "classnames";
-import { login } from "../../slices/auth";
-import { clearMessage } from "../../slices/message";
+import { userSelector, clearState, loginUser } from "./UserSlice";
 
 export const Login = (props) => {
     const [showMessage, setShowMessage] = useState(false);
     const [formData, setFormData] = useState({});
-    const [addRequestStatus, setAddRequestStatus] = useState("idle");
-    const [loading, setLoading] = useState(false);
-    const { isLoggedIn } = useSelector((state) => state.auth);
-    const { message } = useSelector((state) => state.message);
-    useEffect(() => {
-        dispatch(clearMessage());
-    }, [dispatch]);
     const dispatch = useDispatch();
+    const history = useHistory();
+    const { isFetching, isSuccess, isError, errorMessage } = useSelector(userSelector);
 
     const LoginSchema = Yup.object().shape({
         email: Yup.string().email("invalid email").required("is required"),
@@ -34,33 +29,27 @@ export const Login = (props) => {
             password: "",
         },
         validationSchema: LoginSchema,
-        onSubmit: async (formValue) => {
-            // const canLogin = [formik.email, formik.password].every(Boolean) && addRequestStatus === "idle";
-            // console.log("Please", [formik.email, formik.password].every(Boolean) && canLogin);
-            const { username, password } = formValue;
-            setLoading(true);
-            dispatch(login({ username, password }))
-                .unwrap()
-                .then(() => {
-                    props.history.push("/");
-                    window.location.reload();
-                })
-                .catch(() => {
-                    setLoading(false);
-                });
-            // try {
-            //     setAddRequestStatus("pending");
-            //     dispatch(loginUser(data)).unwrap();
-            // } catch (error) {
-            //     console.error("Failed to save the post: ", error.response);
-            // } finally {
-            //     setAddRequestStatus("idle");
-            // }
+        onSubmit: async (data) => {
+            dispatch(loginUser(data));
             // formik.resetForm();
         },
     });
-    // function login(data) {
-    // }
+
+    useEffect(() => {
+        return () => {
+            dispatch(clearState());
+        };
+    }, []);
+    useEffect(() => {
+        if (isError) {
+            //   toast.error(errorMessage);
+            dispatch(clearState());
+        }
+        if (isSuccess) {
+            dispatch(clearState());
+            history.push("/");
+        }
+    }, [isError, isSuccess]);
 
     const isFormFieldValid = (name) => !!(formik.touched[name] && formik.errors[name]);
     const getFormErrorMessage = (name) => {
@@ -120,10 +109,10 @@ export const Login = (props) => {
                         </div>
                     </div>
                 </div>
-                {message && (
+                {errorMessage && (
                     <div className="form-group">
                         <div className="alert alert-danger" role="alert">
-                            {message}
+                            {errorMessage}
                         </div>
                     </div>
                 )}

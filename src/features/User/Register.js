@@ -1,11 +1,12 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import Form from "react-validation/build/form";
 import CheckButton from "react-validation/build/button";
-import { register } from "../../actions/auth";
 import { useDispatch, useSelector } from "react-redux";
 import AuthShell from "../../AuthShell";
+import { useHistory } from "react-router-dom";
+import { userSelector, clearState, signupUser } from "./UserSlice";
 
 const required = (value) => {
     if (!value) {
@@ -17,6 +18,7 @@ const required = (value) => {
     }
 };
 const Register = () => {
+    const history = useHistory();
     const form = useRef();
     const checkBtn = useRef();
     const [username, setUsername] = useState("");
@@ -26,8 +28,9 @@ const Register = () => {
     const [password, setPassword] = useState("");
     const [occupation, setOccupation] = useState("");
     const [successful, setSuccessful] = useState(false);
-    const { message } = useSelector((state) => state.message);
+    // const { message } = useSelector((state) => state.message);
     const dispatch = useDispatch();
+    const { isFetching, isSuccess, isError, errorMessage } = useSelector(userSelector);
 
     const onChangeUsername = (e) => {
         const username = e.target.value;
@@ -65,7 +68,7 @@ const Register = () => {
         form.current.validateAll();
 
         if (checkBtn.current.context._errors.length === 0) {
-            dispatch(register(firstname, lastname, username, email, password, occupation))
+            dispatch(signupUser(firstname, lastname, username, email, password, occupation))
                 .then(() => {
                     setSuccessful(true);
                 })
@@ -74,7 +77,16 @@ const Register = () => {
                 });
         }
     };
-
+    useEffect(() => {
+        if (isError) {
+            // toast.error(errorMessage);
+            dispatch(clearState());
+        }
+        if (isSuccess) {
+            dispatch(clearState());
+            history.push("/");
+        }
+    }, [isError, isSuccess]);
     return (
         <>
             <AuthShell>
@@ -92,7 +104,7 @@ const Register = () => {
                                         <div className="p-fluid p-formgrid p-grid">
                                             <div className="p-field p-col-12 p-md-12">
                                                 <label htmlFor="firstname">Firstname</label>
-                                                <InputText id="firstname" type="text" name="email" value={firstname} onChange={onChangeFirstname} validations={[required]} placeholder="FirstName" />
+                                                <InputText id="firstname" type="text" name="firstname" value={firstname} onChange={onChangeFirstname} validations={[required]} placeholder="FirstName" />
                                             </div>
                                             <div className="p-field p-col-12 p-md-12">
                                                 <label htmlFor="lastname">Lastname</label>
@@ -126,10 +138,10 @@ const Register = () => {
                                         </div>
                                     </div>
                                 )}
-                                {message && (
+                                {errorMessage && (
                                     <div className="form-group">
                                         <div className={successful ? "alert alert-success" : "alert alert-danger"} role="alert">
-                                            {message}
+                                            {errorMessage}
                                         </div>
                                     </div>
                                 )}
