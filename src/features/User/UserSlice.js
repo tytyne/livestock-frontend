@@ -1,5 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import AuthService from "./AuthService";
+
 const API_URL = "http://localhost:5000/api/v1/user";
+
+const user = JSON.parse(localStorage.getItem("user"));
+
+const initialState = {
+    user: user ? user : null,
+    isError: false,
+    isSuccess: false,
+    isLoading: false,
+    message: "",
+};
+
 export const signupUser = createAsyncThunk("users/signupUser", async ({ name, email, password }, thunkAPI) => {
     try {
         const response = await fetch(`${API_URL}/signup`, {
@@ -29,31 +42,17 @@ export const signupUser = createAsyncThunk("users/signupUser", async ({ name, em
     }
 });
 
-export const loginUser = createAsyncThunk("users/login", async ({ email, password }, thunkAPI) => {
+export const login = createAsyncThunk("users/login", async (user, thunkAPI) => {
     try {
-        const response = await fetch(`${API_URL}/login`, {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email,
-                password,
-            }),
-        });
-        let data = await response.json();
-        console.log("response", data);
-        if (response.status === 200) {
-            localStorage.setItem("token", data.token);
-            return data;
-        } else {
-            return thunkAPI.rejectWithValue(data);
-        }
-    } catch (e) {
-        console.log("Error", e.response.data);
-        thunkAPI.rejectWithValue(e.response.data);
+        return await AuthService.login(user);
+    } catch (error) {
+        const message = (error.message && error.response.data && error.response.data.message) || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
     }
+});
+
+export const logout = createAsyncThunk("users/logout", async () => {
+    await AuthService.logout();
 });
 
 export const fetchUserBytoken = createAsyncThunk("users/fetchUserByToken", async ({ token }, thunkAPI) => {
@@ -82,74 +81,38 @@ export const fetchUserBytoken = createAsyncThunk("users/fetchUserByToken", async
 
 export const userSlice = createSlice({
     name: "user",
-    initialState: {
-        username: "",
-        email: "",
-        isFetching: false,
-        isSuccess: false,
-        isError: false,
-        errorMessage: "",
-    },
+    initialState,
     reducers: {
-        clearState: (state) => {
-            state.isError = false;
+        reset: (state) => {
+            state.isLoading = false;
             state.isSuccess = false;
-            state.isFetching = false;
-
-            return state;
+            state.isError = false;
+            state.message = "";
         },
     },
-    extraReducers: {
-        [signupUser.fulfilled]: (state, { payload }) => {
-            console.log("payload", payload);
-            state.isFetching = false;
-            state.isSuccess = true;
-            state.email = payload.user.email;
-            state.username = payload.user.name;
-        },
-        [signupUser.pending]: (state) => {
-            state.isFetching = true;
-        },
-        [signupUser.rejected]: (state, { payload }) => {
-            state.isFetching = false;
-            state.isError = true;
-            state.errorMessage = payload.message;
-            console.log("payload", payload);
-        },
-        [loginUser.fulfilled]: (state, { payload }) => {
-            state.email = payload.email;
-            state.username = payload.name;
-            state.isFetching = false;
-            state.isSuccess = true;
-            return state;
-        },
-        [loginUser.rejected]: (state, { payload }) => {
-            console.log("payload", payload);
-            state.isFetching = false;
-            state.isError = true;
-            state.errorMessage = payload.message;
-        },
-        [loginUser.pending]: (state) => {
-            state.isFetching = true;
-        },
-        [fetchUserBytoken.pending]: (state) => {
-            state.isFetching = true;
-        },
-        [fetchUserBytoken.fulfilled]: (state, { payload }) => {
-            state.isFetching = false;
-            state.isSuccess = true;
-
-            state.email = payload.email;
-            state.username = payload.name;
-        },
-        [fetchUserBytoken.rejected]: (state) => {
-            console.log("fetchUserBytoken");
-            state.isFetching = false;
-            state.isError = true;
-        },
+    extraReducers: (builder) => {
+        builder
+            .addCase(login.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(login.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.user = action.payload;
+            })
+            .addCase(login.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+                state.user = null;
+            })
+            .addCase(logout.fulfilled, (state) => {
+                state.user = null;
+            });
     },
 });
 
-export const { clearState } = userSlice.actions;
+export const { reset } = userSlice.actions;
+export default userSlice.reducer;
 
 export const userSelector = (state) => state.user;

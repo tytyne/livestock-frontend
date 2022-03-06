@@ -6,7 +6,7 @@ import CheckButton from "react-validation/build/button";
 import { useDispatch, useSelector } from "react-redux";
 import AuthShell from "../../AuthShell";
 import { useHistory } from "react-router-dom";
-import { userSelector, clearState, signupUser } from "./UserSlice";
+import { userSelector, reset, signupUser } from "./UserSlice";
 
 const required = (value) => {
     if (!value) {
@@ -80,10 +80,10 @@ const Register = () => {
     useEffect(() => {
         if (isError) {
             // toast.error(errorMessage);
-            dispatch(clearState());
+            dispatch(reset());
         }
         if (isSuccess) {
-            dispatch(clearState());
+            dispatch(reset());
             history.push("/");
         }
     }, [isError, isSuccess]);

@@ -1,35 +1,33 @@
-import React, { useState, useEffect, useRef } from 'react';
-import{useDispatch,useSelector} from "react-redux"
-import classNames from 'classnames';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Toast } from 'primereact/toast';
-import { Button } from 'primereact/button';
-import { FileUpload } from 'primereact/fileupload';
-import { Rating } from 'primereact/rating';
-import { Toolbar } from 'primereact/toolbar';
-import { InputTextarea } from 'primereact/inputtextarea';
-import { RadioButton } from 'primereact/radiobutton';
-import { InputNumber } from 'primereact/inputnumber';
-import { Dialog } from 'primereact/dialog';
-import { InputText } from 'primereact/inputtext';
-import { ProductService } from '../../service/ProductService'
-import {FarmerService} from "../../service/FarmerService"
-import{retreiveFarmers} from "../../actions/farming"
+import React, { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import classNames from "classnames";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import { Toast } from "primereact/toast";
+import { Button } from "primereact/button";
+import { FileUpload } from "primereact/fileupload";
+import { Rating } from "primereact/rating";
+import { Toolbar } from "primereact/toolbar";
+import { InputTextarea } from "primereact/inputtextarea";
+import { RadioButton } from "primereact/radiobutton";
+import { InputNumber } from "primereact/inputnumber";
+import { Dialog } from "primereact/dialog";
+import { InputText } from "primereact/inputtext";
+// import { ProductService } from "../../service/ProductService";
+import FarmerService from "./FarmerService";
+// import { retreiveFarmers } from "../../actions/farming";
 
 export const AllFarmers = () => {
-
- 
     let emptyFarmer = {
         id: null,
-        firstname: '',
+        firstname: "",
         lastname: null,
-        phone: '',
+        phone: "",
         gender: 0,
         district: 0,
-        status: 'active'
+        status: "active",
     };
-    
+
     //my own codes
     const [farmers, setFarmers] = useState(null);
     const [farmerDialog, setFarmerDialog] = useState(false);
@@ -41,32 +39,27 @@ export const AllFarmers = () => {
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
     const dt = useRef(null);
-    const farming = useSelector(state => state.farming);
+    const farming = useSelector((state) => state.farming);
     const dispatch = useDispatch();
-   
 
     //my codes
     useEffect(() => {
         const farmerService = new FarmerService();
-        farmerService.getAllFarmers().then((data)=>{
-            console.log("check dataa",data)
-            setFarmers(data.data)
-           
-        })
+        farmerService.getAllFarmers().then((data) => {
+            console.log("check dataa", data);
+            setFarmers(data.data);
+        });
 
-            // dispatch(retreiveFarmers());
-            // setFarmers(farming)
-
+        // dispatch(retreiveFarmers());
+        // setFarmers(farming)
     }, [dispatch]);
-
-    
 
     //my own codes
     const openNew = () => {
         setFarmer(emptyFarmer);
         setSubmitted(false);
         setFarmerDialog(true);
-    }
+    };
 
     // const openNew = () => {
     //     setProduct(emptyProduct);
@@ -83,13 +76,12 @@ export const AllFarmers = () => {
     const hideDialog = () => {
         setSubmitted(false);
         setFarmerDialog(false);
-    }
-    
+    };
 
     //my own codes
     const hideDeleteFarmerDialog = () => {
         setDeleteFarmerDialog(false);
-    }
+    };
 
     // const hideDeleteProductsDialog = () => {
     //     setDeleteProductsDialog(false);
@@ -99,7 +91,7 @@ export const AllFarmers = () => {
 
     const hideDeleteFarmersDialog = () => {
         setDeleteFarmersDialog(false);
-    }
+    };
     const saveFarmer = () => {
         setSubmitted(true);
 
@@ -110,37 +102,36 @@ export const AllFarmers = () => {
                 const index = findIndexById(farmer.id);
 
                 _farmer[index] = _farmer;
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Farmer Updated', life: 3000 });
-            }
-            else {
+                toast.current.show({ severity: "success", summary: "Successful", detail: "Farmer Updated", life: 3000 });
+            } else {
                 _farmer.id = createId();
                 _farmers.push(_farmer);
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Farmer Created', life: 3000 });
+                toast.current.show({ severity: "success", summary: "Successful", detail: "Farmer Created", life: 3000 });
             }
 
             setFarmers(_farmers);
             setFarmerDialog(false);
             setFarmer(emptyFarmer);
         }
-    }
+    };
 
     const editFarmer = (farmer) => {
         setFarmer({ ...farmer });
         setFarmerDialog(true);
-    }
+    };
 
     const confirmDeleteFarmer = (farmer) => {
         setFarmer(farmer);
         setDeleteFarmerDialog(true);
-    }
+    };
 
     const deleteFarmer = () => {
-        let _farmers = farmers.filter(val => val.id !== farmer.id);
+        let _farmers = farmers.filter((val) => val.id !== farmer.id);
         setFarmers(_farmers);
         setDeleteFarmerDialog(false);
         setFarmer(emptyFarmer);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'farmer Deleted', life: 3000 });
-    }
+        toast.current.show({ severity: "success", summary: "Successful", detail: "farmer Deleted", life: 3000 });
+    };
 
     const findIndexById = (id) => {
         let index = -1;
@@ -152,46 +143,46 @@ export const AllFarmers = () => {
         }
 
         return index;
-    }
+    };
 
     const createId = () => {
-        let id = '';
-        let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let id = "";
+        let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         for (let i = 0; i < 5; i++) {
             id += chars.charAt(Math.floor(Math.random() * chars.length));
         }
         return id;
-    }
+    };
 
     const exportCSV = () => {
         dt.current.exportCSV();
-    }
+    };
 
     const confirmDeleteSelected = () => {
         setDeleteFarmersDialog(true);
-    }
+    };
 
     const deleteSelectedFarmers = () => {
-        let _farmers = farmers.filter(val => !selectedFarmers.includes(val));
+        let _farmers = farmers.filter((val) => !selectedFarmers.includes(val));
         setFarmers(_farmers);
         setDeleteFarmersDialog(false);
         setSelectedFarmers(null);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Farmers Deleted', life: 3000 });
-    }
+        toast.current.show({ severity: "success", summary: "Successful", detail: "Farmers Deleted", life: 3000 });
+    };
 
     const onCategoryChange = (e) => {
         let _farmer = { ...farmer };
-        _farmer['category'] = e.value;
+        _farmer["category"] = e.value;
         setFarmer(_farmer);
-    }
+    };
 
     const onInputChange = (e, name) => {
-        const val = (e.target && e.target.value) || '';
+        const val = (e.target && e.target.value) || "";
         let _farmer = { ...farmer };
         _farmer[`${name}`] = val;
 
         setFarmer(_farmer);
-    }
+    };
 
     const onInputNumberChange = (e, name) => {
         const val = e.value || 0;
@@ -199,7 +190,7 @@ export const AllFarmers = () => {
         _farmer[`${name}`] = val;
 
         setFarmer(_farmer);
-    }
+    };
 
     const leftToolbarTemplate = () => {
         return (
@@ -207,8 +198,8 @@ export const AllFarmers = () => {
                 <Button label="New" icon="pi pi-plus" className="p-button-success p-mr-2" onClick={openNew} />
                 <Button label="Delete" icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected} disabled={!selectedFarmers || !selectedFarmers.length} />
             </React.Fragment>
-        )
-    }
+        );
+    };
 
     const rightToolbarTemplate = () => {
         return (
@@ -216,8 +207,8 @@ export const AllFarmers = () => {
                 <FileUpload mode="basic" accept="image/*" maxFileSize={1000000} label="Import" chooseLabel="Import" className="p-mr-2 p-d-inline-block" />
                 <Button label="Export" icon="pi pi-upload" className="p-button-help" onClick={exportCSV} />
             </React.Fragment>
-        )
-    }
+        );
+    };
 
     const firstnameBodyTemplate = (rowData) => {
         return (
@@ -226,7 +217,7 @@ export const AllFarmers = () => {
                 {rowData.firstname}
             </>
         );
-    }
+    };
 
     const lastnameBodyTemplate = (rowData) => {
         return (
@@ -235,7 +226,7 @@ export const AllFarmers = () => {
                 {rowData.lastname}
             </>
         );
-    }
+    };
     const phoneBodyTemplate = (rowData) => {
         return (
             <>
@@ -243,8 +234,7 @@ export const AllFarmers = () => {
                 {rowData.phone}
             </>
         );
-    }
- 
+    };
 
     const genderBodyTemplate = (rowData) => {
         return (
@@ -253,7 +243,7 @@ export const AllFarmers = () => {
                 {rowData.gender}
             </>
         );
-    }
+    };
     const districtBodyTemplate = (rowData) => {
         return (
             <>
@@ -261,8 +251,7 @@ export const AllFarmers = () => {
                 {rowData.district}
             </>
         );
-    }
-  
+    };
 
     const actionBodyTemplate = (rowData) => {
         return (
@@ -271,7 +260,7 @@ export const AllFarmers = () => {
                 <Button icon="pi pi-trash" className="p-button-rounded p-button-warning" onClick={() => confirmDeleteFarmer(rowData)} />
             </div>
         );
-    }
+    };
 
     const header = (
         <div className="table-header">
@@ -309,12 +298,23 @@ export const AllFarmers = () => {
                     <Toast ref={toast} />
                     <Toolbar className="p-mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
 
-                    <DataTable ref={dt} value={farmers} selection={selectedFarmers} onSelectionChange={(e) => setSelectedFarmers(e.value)}
-                        dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
+                    <DataTable
+                        ref={dt}
+                        value={farmers}
+                        selection={selectedFarmers}
+                        onSelectionChange={(e) => setSelectedFarmers(e.value)}
+                        dataKey="id"
+                        paginator
+                        rows={10}
+                        rowsPerPageOptions={[5, 10, 25]}
+                        className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} farmers"
-                        globalFilter={globalFilter} emptyMessage="No farmers found." header={header}>
-                        <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
+                        globalFilter={globalFilter}
+                        emptyMessage="No farmers found."
+                        header={header}
+                    >
+                        <Column selectionMode="multiple" headerStyle={{ width: "3rem" }}></Column>
                         <Column field="firstname" header="Firstname" sortable body={firstnameBodyTemplate}></Column>
                         <Column field="lastname" header="Lastname" sortable body={lastnameBodyTemplate}></Column>
                         <Column field="phone" header="Phone" sortable body={phoneBodyTemplate}></Column>
@@ -324,38 +324,40 @@ export const AllFarmers = () => {
                         <Column body={actionBodyTemplate}></Column>
                     </DataTable>
 
-                    <Dialog visible={farmerDialog} style={{ width: '450px' }} header="Farmer Details" modal className="p-fluid" footer={farmerDialogFooter} onHide={hideDialog}>
-                       
+                    <Dialog visible={farmerDialog} style={{ width: "450px" }} header="Farmer Details" modal className="p-fluid" footer={farmerDialogFooter} onHide={hideDialog}>
                         <div className="p-field">
                             <label htmlFor="firstname">FirstName</label>
-                            <InputText id="firstname" value={farmer.firstname} onChange={(e) => onInputChange(e, 'firstname')} required autoFocus className={classNames({ 'p-invalid': submitted && !farmer.firstname })} />
+                            <InputText id="firstname" value={farmer.firstname} onChange={(e) => onInputChange(e, "firstname")} required autoFocus className={classNames({ "p-invalid": submitted && !farmer.firstname })} />
                             {submitted && !farmer.firstname && <small className="p-invalid">FirstName is required.</small>}
                         </div>
                         <div className="p-field">
                             <label htmlFor="lastname">LastName</label>
-                            <InputText id="lastname" value={farmer.lastname} onChange={(e) => onInputChange(e, 'lastname')} required rows={3} cols={20} />
+                            <InputText id="lastname" value={farmer.lastname} onChange={(e) => onInputChange(e, "lastname")} required rows={3} cols={20} />
                         </div>
                         <div className="p-field">
                             <label htmlFor="lastname">Phone</label>
-                            <InputText id="lastname" value={farmer.phone} onChange={(e) => onInputChange(e, 'phone')} required rows={3} cols={20} />
+                            <InputText id="lastname" value={farmer.phone} onChange={(e) => onInputChange(e, "phone")} required rows={3} cols={20} />
                         </div>
                         <div className="p-field">
                             <label htmlFor="lastname">District</label>
-                            <InputText id="lastname" value={farmer.district} onChange={(e) => onInputChange(e, 'district')} required rows={3} cols={20} />
-                        </div>
-                        
-                    </Dialog>
-
-                    <Dialog visible={deleteFarmerDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteFarmerDialogFooter} onHide={hideDeleteFarmerDialog}>
-                        <div className="confirmation-content">
-                            <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
-                            {farmer && <span>Are you sure you want to delete <b>{farmer.nid}</b>?</span>}
+                            <InputText id="lastname" value={farmer.district} onChange={(e) => onInputChange(e, "district")} required rows={3} cols={20} />
                         </div>
                     </Dialog>
 
-                    <Dialog visible={deleteFarmersDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteFarmersDialogFooter} onHide={hideDeleteFarmersDialog}>
+                    <Dialog visible={deleteFarmerDialog} style={{ width: "450px" }} header="Confirm" modal footer={deleteFarmerDialogFooter} onHide={hideDeleteFarmerDialog}>
                         <div className="confirmation-content">
-                            <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
+                            <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: "2rem" }} />
+                            {farmer && (
+                                <span>
+                                    Are you sure you want to delete <b>{farmer.nid}</b>?
+                                </span>
+                            )}
+                        </div>
+                    </Dialog>
+
+                    <Dialog visible={deleteFarmersDialog} style={{ width: "450px" }} header="Confirm" modal footer={deleteFarmersDialogFooter} onHide={hideDeleteFarmersDialog}>
+                        <div className="confirmation-content">
+                            <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: "2rem" }} />
                             {farmer && <span>Are you sure you want to delete the selected farmers?</span>}
                         </div>
                     </Dialog>
@@ -363,4 +365,4 @@ export const AllFarmers = () => {
             </div>
         </div>
     );
-}
+};

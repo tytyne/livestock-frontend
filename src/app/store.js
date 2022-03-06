@@ -1,7 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { userSlice } from "../features/User/UserSlice";
+import userSlice from "../features/User/UserSlice";
+import farmerSlice from "../features/Farmers/farmerSlice";
+
 export default configureStore({
     reducer: {
-        user: userSlice.reducer,
+        user: userSlice,
+        farmer: farmerSlice,
     },
 });

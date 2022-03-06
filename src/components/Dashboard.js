@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { Panel } from "primereact/panel";
 import { Checkbox } from "primereact/checkbox";
 import { Button } from "primereact/button";
@@ -66,7 +68,34 @@ export const Dashboard = () => {
         productService.getProductsSmall().then((data) => setProducts(data));
         eventService.getEvents().then((data) => setEvents(data));
     }, []);
+    const history = useHistory();
+    const dispatch = useDispatch();
 
+    const { user } = useSelector((state) => state.user);
+    // const { goals, isLoading, isError, message } = useSelector((state) => state.goals);
+
+    useEffect(() => {
+        // if (isError) {
+        //     console.log(message);
+        // }
+
+        if (user) {
+            return history.push("/");
+        }
+
+        // dispatch(getGoals());
+        history.push("/login");
+
+        return () => {
+            // dispatch(reset());
+            console.log(user);
+        };
+    }, []);
+
+    // if (isLoading) {
+    //     return
+    //     <Spinner />;
+    // }
     const formatCurrency = (value) => {
         return value.toLocaleString("en-US", { style: "currency", currency: "USD" });
     };
@@ -250,7 +279,7 @@ export const Dashboard = () => {
                 <div className="card">
                     <h1 style={{ fontSize: "16px" }}>Recent Sales</h1>
                     <DataTable value={products} className="p-datatable-customers" rows={5} style={{ marginBottom: "20px" }} paginator>
-                        <Column header="Logo" body={(data) => <img src={`demo/images/product/${data.image}`} alt={data.image} width="50" />}></Column>
+                        <Column header="Logo" body={(data) => <img src={`assets/demo/images/product/${data.image}`} alt={data.image} width="50" />}></Column>
                         <Column field="name" header="Name" sortable></Column>
                         <Column field="category" header="Category" sortable></Column>
                         <Column field="price" header="Price" sortable body={(data) => formatCurrency(data.price)}></Column>

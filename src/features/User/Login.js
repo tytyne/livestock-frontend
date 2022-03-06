@@ -1,22 +1,25 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Password } from "primereact/password";
 import { Dialog } from "primereact/dialog";
 import AuthShell from "../../AuthShell";
 import classNames from "classnames";
-import { userSelector, clearState, loginUser } from "./UserSlice";
+import { login, reset } from "./UserSlice";
 
 export const Login = (props) => {
     const [showMessage, setShowMessage] = useState(false);
-    const [formData, setFormData] = useState({});
+    // const [formData, setFormData] = useState({});
+
     const dispatch = useDispatch();
     const history = useHistory();
-    const { isFetching, isSuccess, isError, errorMessage } = useSelector(userSelector);
+
+    const { user, isLoading, isError, isSuccess, message } = useSelector((state) => state.user);
 
     const LoginSchema = Yup.object().shape({
         email: Yup.string().email("invalid email").required("is required"),
@@ -30,27 +33,27 @@ export const Login = (props) => {
         },
         validationSchema: LoginSchema,
         onSubmit: async (data) => {
-            dispatch(loginUser(data));
+            dispatch(login(data));
             // formik.resetForm();
         },
     });
 
     useEffect(() => {
-        return () => {
-            dispatch(clearState());
-        };
-    }, []);
-    useEffect(() => {
         if (isError) {
-            //   toast.error(errorMessage);
-            dispatch(clearState());
+            toast.error(message);
         }
-        if (isSuccess) {
-            dispatch(clearState());
+
+        if (isSuccess || user) {
             history.push("/");
         }
-    }, [isError, isSuccess]);
 
+        dispatch(reset());
+    }, [user, isError, isSuccess, message, history, dispatch]);
+
+    if (isLoading) {
+        return "loading ...";
+        // <Spinner />;
+    }
     const isFormFieldValid = (name) => !!(formik.touched[name] && formik.errors[name]);
     const getFormErrorMessage = (name) => {
         return isFormFieldValid(name) && <small className="p-error">{formik.errors[name]}</small>;
@@ -70,7 +73,7 @@ export const Login = (props) => {
                         <i className="pi pi-check-circle" style={{ fontSize: "5rem", color: "var(--green-500)" }}></i>
                         <div className="text-900 font-bold text-xl mt-5">Registration Successful!</div>
                         <p className="line-height-3 my-4">
-                            Your account is registered under name <b>{formData.email}</b>. It'll be valid for 30 days without activation. Please check <b>{formData.email}</b> for activation instructions.
+                            Your account is registered under name <b>{formik.email}</b>. It'll be valid for 30 days without activation. Please check <b>{formik.email}</b> for activation instructions.
                         </p>
                     </div>
                 </Dialog>
@@ -109,10 +112,10 @@ export const Login = (props) => {
                         </div>
                     </div>
                 </div>
-                {errorMessage && (
+                {message && (
                     <div className="form-group">
                         <div className="alert alert-danger" role="alert">
-                            {errorMessage}
+                            {message}
                         </div>
                     </div>
                 )}

@@ -1,11 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter as Router, Switch, Route, useHistory } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Dashboard } from "./components/Dashboard";
+import { Switch, Route } from "react-router-dom";
 //modified
-import { AddFArmer } from "./myPages/Farmers/AddFarmer";
-import { AllFarmers } from "./myPages/Farmers/AllFarmers";
+import { FarmerForm } from "./features/Farmers/FarmerForm";
+import { AllFarmers } from "./features/Farmers/AllFarmers";
 import { AddAnimal } from "./myPages/Animals/AddAnimal";
 import { AllAnimals } from "./myPages/Animals/AllAnimals";
 import { AllOperations } from "./myPages/operations/AllOperations";
@@ -16,32 +12,8 @@ import { Reset } from "./features/User/Reset_password";
 import { Forgot } from "./features/User/Forgot_password";
 import AppShell from "./AppShell";
 import AppSigmaRoute from "./AppSigmaRoute";
-import EventBus from "./common/EventBus";
-import { userSelector, clearState, fetchUserBytoken } from "./features/User/UserSlice";
 
-export const AppRouter = (props) => {
-    const history = useHistory();
-    const dispatch = useDispatch();
-    const { isFetching, isError } = useSelector(userSelector);
-    useEffect(() => {
-        dispatch(fetchUserBytoken({ token: localStorage.getItem("token") }));
-    }, []);
-    const { username, email } = useSelector(userSelector);
-    useEffect(() => {
-        const user = localStorage.getItem("token");
-        if (user) {
-            // dispatch(clearState());
-            history.push("/");
-        } else {
-            dispatch(clearState());
-            history.push("/login");
-        }
-    }, [isError]);
-    const onLogOut = () => {
-        localStorage.removeItem("token");
-        history.push("/login");
-    };
-
+export const AppRouter = () => {
     return (
         <>
             <Switch>
@@ -53,7 +25,7 @@ export const AppRouter = (props) => {
                 <AppShell>
                     <AppSigmaRoute />
                     {/* my own paths */}
-                    <Route path="/addFarmer" component={AddFArmer} />
+                    <Route path="/addFarmer" component={FarmerForm} />
                     <Route path="/allFarmers" component={AllFarmers} />
                     <Route path="/allAnimals" component={AllAnimals} />
                     <Route path="/addAnimal" component={AddAnimal} />
