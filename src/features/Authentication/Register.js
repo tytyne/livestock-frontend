@@ -5,7 +5,7 @@ import Form from "react-validation/build/form";
 import CheckButton from "react-validation/build/button";
 import { register } from "../../actions/auth";
 import { useDispatch, useSelector } from "react-redux";
-import AuthShell from "../../Auth";
+import AuthShell from "../../AuthShell";
 
 const required = (value) => {
     if (!value) {
@@ -79,10 +79,7 @@ const Register = () => {
         <>
             <AuthShell>
                 <div className="p-grid" style={{ backgroundColor: "white" }}>
-                    <div className="p-col" style={{ backgroundColor: "#448dee" }}>
-                        {" "}
-                        1
-                    </div>
+                    <div className="p-col" style={{ backgroundColor: "#448dee" }}></div>
                     <div className="p-col-6">
                         <div className="p-col-10">
                             <center>

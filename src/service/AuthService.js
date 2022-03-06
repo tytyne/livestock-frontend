@@ -1,63 +1,49 @@
-import axios from "axios"
+import axios from "axios";
+const API_URL = "http://localhost:5000/api/v1/";
 
-
-const {REACT_APP_BACKEND_URL, REACT_APP_VERSION} = process.env
-const API_URL =`${REACT_APP_BACKEND_URL}/api/${REACT_APP_VERSION}`
-
-const register =async (firstname,lastname,username,email,password,occupation) => {
- 
-    return  await axios.post(`${API_URL}/user/signup`, {
-      firstname,
-      lastname,
-      username,
-      email,
-      password,
-      occupation
-    }).then((response)=>{
-      console.log("check login response",response)
+const register = (username, email, password) => {
+    return axios.post(API_URL + "signup", {
+        username,
+        email,
+        password,
     });
 };
 
-const login= async(email,password)=>{
-  console.log("email",email)
-  console.log("password",password)
-    return await axios.post(`${API_URL}/user/login`,{
-        email,password
-    }).then((response)=>{
-      console.log("check login response",response)
-        if(response.data.token){
-          console.log("check login response",response)
-            localStorage.setItem("user",JSON.stringify(response.data))
-        }
-        console.log(response)
-        return response.data
-        
-    });
-
-}
-const forgot = ( email) => {
-  return axios.post(`${API_URL}/auth/forgot_password`, {
-    email
-  });
+const login = (email, password) => {
+    return axios
+        .post(API_URL + "user/login", {
+            email,
+            password,
+        })
+        .then((response) => {
+            if (response.data.accessToken) {
+                localStorage.setItem("user", JSON.stringify(response.data));
+            }
+            return response.data;
+        });
 };
 
+const forgot = (email) => {
+    return axios.post(`${API_URL}/auth/forgot_password`, {
+        email,
+    });
+};
 
-const reset=(Password,ConfirmPassword,token)=>{
-  return axios.post(`${API_URL}/auth/reset_password/${token}`, {
-    Password,ConfirmPassword
-  });
-}
+const reset = (Password, ConfirmPassword, token) => {
+    return axios.post(`${API_URL}/auth/reset_password/${token}`, {
+        Password,
+        ConfirmPassword,
+    });
+};
 
-const logout=()=>{
-  localStorage.removeItem("user")
-}
-
+const logout = () => {
+    localStorage.removeItem("user");
+};
 
 export default {
     register,
     login,
     forgot,
     reset,
-    logout
-   
-  };
+    logout,
+};
