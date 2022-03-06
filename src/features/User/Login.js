@@ -1,27 +1,25 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Password } from "primereact/password";
 import { Dialog } from "primereact/dialog";
 import AuthShell from "../../AuthShell";
 import classNames from "classnames";
-import { login } from "../../slices/auth";
-import { clearMessage } from "../../slices/message";
+import { login, reset } from "./UserSlice";
 
 export const Login = (props) => {
     const [showMessage, setShowMessage] = useState(false);
-    const [formData, setFormData] = useState({});
-    const [addRequestStatus, setAddRequestStatus] = useState("idle");
-    const [loading, setLoading] = useState(false);
-    const { isLoggedIn } = useSelector((state) => state.auth);
-    const { message } = useSelector((state) => state.message);
-    useEffect(() => {
-        dispatch(clearMessage());
-    }, [dispatch]);
+    // const [formData, setFormData] = useState({});
+
     const dispatch = useDispatch();
+    const history = useHistory();
+
+    const { user, isLoading, isError, isSuccess, message } = useSelector((state) => state.user);
 
     const LoginSchema = Yup.object().shape({
         email: Yup.string().email("invalid email").required("is required"),
@@ -34,34 +32,28 @@ export const Login = (props) => {
             password: "",
         },
         validationSchema: LoginSchema,
-        onSubmit: async (formValue) => {
-            // const canLogin = [formik.email, formik.password].every(Boolean) && addRequestStatus === "idle";
-            // console.log("Please", [formik.email, formik.password].every(Boolean) && canLogin);
-            const { username, password } = formValue;
-            setLoading(true);
-            dispatch(login({ username, password }))
-                .unwrap()
-                .then(() => {
-                    props.history.push("/");
-                    window.location.reload();
-                })
-                .catch(() => {
-                    setLoading(false);
-                });
-            // try {
-            //     setAddRequestStatus("pending");
-            //     dispatch(loginUser(data)).unwrap();
-            // } catch (error) {
-            //     console.error("Failed to save the post: ", error.response);
-            // } finally {
-            //     setAddRequestStatus("idle");
-            // }
+        onSubmit: async (data) => {
+            dispatch(login(data));
             // formik.resetForm();
         },
     });
-    // function login(data) {
-    // }
 
+    useEffect(() => {
+        if (isError) {
+            toast.error(message);
+        }
+
+        if (isSuccess || user) {
+            history.push("/");
+        }
+
+        dispatch(reset());
+    }, [user, isError, isSuccess, message, history, dispatch]);
+
+    if (isLoading) {
+        return "loading ...";
+        // <Spinner />;
+    }
     const isFormFieldValid = (name) => !!(formik.touched[name] && formik.errors[name]);
     const getFormErrorMessage = (name) => {
         return isFormFieldValid(name) && <small className="p-error">{formik.errors[name]}</small>;
@@ -81,7 +73,7 @@ export const Login = (props) => {
                         <i className="pi pi-check-circle" style={{ fontSize: "5rem", color: "var(--green-500)" }}></i>
                         <div className="text-900 font-bold text-xl mt-5">Registration Successful!</div>
                         <p className="line-height-3 my-4">
-                            Your account is registered under name <b>{formData.email}</b>. It'll be valid for 30 days without activation. Please check <b>{formData.email}</b> for activation instructions.
+                            Your account is registered under name <b>{formik.email}</b>. It'll be valid for 30 days without activation. Please check <b>{formik.email}</b> for activation instructions.
                         </p>
                     </div>
                 </Dialog>

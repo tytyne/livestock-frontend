@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = "http://localhost:5000/api/v1/";
+const API_URL = "http://localhost:5000/api/v1/user/";
 
 const register = (username, email, password) => {
     return axios.post(API_URL + "signup", {
@@ -9,18 +9,13 @@ const register = (username, email, password) => {
     });
 };
 
-const login = (email, password) => {
-    return axios
-        .post(API_URL + "user/login", {
-            email,
-            password,
-        })
-        .then((response) => {
-            if (response.data.accessToken) {
-                localStorage.setItem("user", JSON.stringify(response.data));
-            }
-            return response.data;
-        });
+const login = async (userData) => {
+    const response = await axios.post(API_URL + "login", userData);
+    console.log("res", response, "user", userData);
+    if (response.data) {
+        localStorage.setItem("user", JSON.stringify(response.data));
+    }
+    return response.data;
 };
 
 const forgot = (email) => {

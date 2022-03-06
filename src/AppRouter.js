@@ -1,44 +1,19 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Dashboard } from "./components/Dashboard";
+import { Switch, Route } from "react-router-dom";
 //modified
-import { AddFArmer } from "./myPages/Farmers/AddFarmer";
-import { AllFarmers } from "./myPages/Farmers/AllFarmers";
+import { FarmerForm } from "./features/Farmers/FarmerForm";
+import { AllFarmers } from "./features/Farmers/AllFarmers";
 import { AddAnimal } from "./myPages/Animals/AddAnimal";
 import { AllAnimals } from "./myPages/Animals/AllAnimals";
 import { AllOperations } from "./myPages/operations/AllOperations";
 import "./App.scss";
-import Register from "./features/Authentication/Register";
-import { Login } from "./features/Authentication/Login";
-import { Reset } from "./features/Authentication/Reset_password";
-import { Forgot } from "./features/Authentication/Forgot_password";
+import Register from "./features/User/Register";
+import { Login } from "./features/User/Login";
+import { Reset } from "./features/User/Reset_password";
+import { Forgot } from "./features/User/Forgot_password";
 import AppShell from "./AppShell";
 import AppSigmaRoute from "./AppSigmaRoute";
-import { logout } from "./slices/auth";
-import EventBus from "./common/EventBus";
-export const AppRouter = (props) => {
-    const { user: currentUser } = useSelector((state) => state.auth);
-    const dispatch = useDispatch();
-    const logOut = useCallback(() => {
-        dispatch(logout());
-    }, [dispatch]);
-    useEffect(() => {
-        if (currentUser) {
-            console.log("state", currentUser);
-        } else {
-            // setShowModeratorBoard(false);
-            // setShowAdminBoard(false);
-            console.log("state", "props", props.location);
-        }
-        EventBus.on("logout", () => {
-            logOut();
-        });
-        return () => {
-            EventBus.remove("logout");
-        };
-    }, [currentUser, logOut]);
+
+export const AppRouter = () => {
     return (
         <>
             <Switch>
@@ -50,7 +25,7 @@ export const AppRouter = (props) => {
                 <AppShell>
                     <AppSigmaRoute />
                     {/* my own paths */}
-                    <Route path="/addFarmer" component={AddFArmer} />
+                    <Route path="/addFarmer" component={FarmerForm} />
                     <Route path="/allFarmers" component={AllFarmers} />
                     <Route path="/allAnimals" component={AllAnimals} />
                     <Route path="/addAnimal" component={AddAnimal} />
