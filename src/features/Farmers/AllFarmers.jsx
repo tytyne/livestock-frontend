@@ -13,9 +13,8 @@ import { RadioButton } from "primereact/radiobutton";
 import { InputNumber } from "primereact/inputnumber";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
-// import { ProductService } from "../../service/ProductService";
 import FarmerService from "./FarmerService";
-// import { retreiveFarmers } from "../../actions/farming";
+import { reset, getFarmers } from "./farmerSlice";
 
 export const AllFarmers = () => {
     let emptyFarmer = {
@@ -39,19 +38,13 @@ export const AllFarmers = () => {
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
     const dt = useRef(null);
-    const farming = useSelector((state) => state.farming);
+    const farming = useSelector((state) => state.farmer);
     const dispatch = useDispatch();
+    const { farmer: f, isLoading, isError, message } = useSelector((state) => state.farmer);
 
     //my codes
     useEffect(() => {
-        const farmerService = new FarmerService();
-        farmerService.getAllFarmers().then((data) => {
-            console.log("check dataa", data);
-            setFarmers(data.data);
-        });
-
-        // dispatch(retreiveFarmers());
-        // setFarmers(farming)
+        setFarmers(dispatch(getFarmers()));
     }, [dispatch]);
 
     //my own codes
@@ -60,17 +53,6 @@ export const AllFarmers = () => {
         setSubmitted(false);
         setFarmerDialog(true);
     };
-
-    // const openNew = () => {
-    //     setProduct(emptyProduct);
-    //     setSubmitted(false);
-    //     setProductDialog(true);
-    // }
-
-    // const hideDialog = () => {
-    //     setSubmitted(false);
-    //     setProductDialog(false);
-    // }
     // my own codes
 
     const hideDialog = () => {
@@ -83,10 +65,6 @@ export const AllFarmers = () => {
         setDeleteFarmerDialog(false);
     };
 
-    // const hideDeleteProductsDialog = () => {
-    //     setDeleteProductsDialog(false);
-    // }
-
     //my own codes
 
     const hideDeleteFarmersDialog = () => {
@@ -95,7 +73,7 @@ export const AllFarmers = () => {
     const saveFarmer = () => {
         setSubmitted(true);
 
-        if (farmer.name.trim()) {
+        if (farmer.firstname.trim()) {
             let _farmers = [...farmers];
             let _farmer = { ...farmer };
             if (farmer.id) {
@@ -274,6 +252,7 @@ export const AllFarmers = () => {
 
     const farmerDialogFooter = (
         <>
+            {/* {console.log(farmer.farmers)} */}
             <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
             <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveFarmer} />
         </>
@@ -293,14 +272,15 @@ export const AllFarmers = () => {
 
     return (
         <div className="p-grid crud-demo">
+            {console.log(farming)}
             <div className="p-col-12">
                 <div className="card">
                     <Toast ref={toast} />
                     <Toolbar className="p-mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
-
+                    {console.log(farmers)}
                     <DataTable
                         ref={dt}
-                        value={farmers}
+                        value={farming.farmers.data}
                         selection={selectedFarmers}
                         onSelectionChange={(e) => setSelectedFarmers(e.value)}
                         dataKey="id"

@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import FarmerService from "./FarmerService";
 
 const initialState = {
-    goals: [],
+    farmers: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -46,12 +46,12 @@ export const farmerSlice = createSlice({
             .addCase(createFarmer.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.goals.push(action.payload);
+                state.farmers.push(action.payload);
             })
             .addCase(createFarmer.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
-                state.message = action.payload;
+                state.message = action.payload.message;
             })
             .addCase(getFarmers.pending, (state) => {
                 state.isLoading = true;
@@ -59,12 +59,12 @@ export const farmerSlice = createSlice({
             .addCase(getFarmers.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.goals = action.payload;
+                state.farmers = action.payload;
             })
             .addCase(getFarmers.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
-                state.message = action.payload;
+                state.message = action.payload.message;
             });
     },
 });
