@@ -48,7 +48,7 @@ export const FarmerForm = () => {
         },
         validationSchema: farmerSchema,
         onSubmit: async (data) => {
-            dispatch(createFarmer(data));
+            dispatch(createFarmer(data)).unwrap();
             setSubmitted(true);
         },
     });

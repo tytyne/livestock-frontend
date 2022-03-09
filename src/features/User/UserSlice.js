@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import AuthService from "./AuthService";
 
-const API_URL = "http://localhost:5000/api/v1/user";
+const API_URL = "http://localhost:5001/api/v1/user";
 
 const user = JSON.parse(localStorage.getItem("user"));
 

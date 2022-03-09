@@ -13,7 +13,14 @@ const createFarmer = async (farmerData) => {
     return data;
 };
 
+const deleteFarmer = async (id) => {
+    const { data } = await axios.delete(API_URL + `/farmer/${id}`, { headers: authHeader() });
+    console.log(data);
+    return data;
+};
+
 export default {
     getAllFarmers,
     createFarmer,
+    deleteFarmer,
 };

@@ -13,8 +13,7 @@ import { RadioButton } from "primereact/radiobutton";
 import { InputNumber } from "primereact/inputnumber";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
-import FarmerService from "./FarmerService";
-import { reset, getFarmers } from "./farmerSlice";
+import { reset, getFarmers, removeFarmer } from "./farmerSlice";
 
 export const AllFarmers = () => {
     let emptyFarmer = {
@@ -40,12 +39,12 @@ export const AllFarmers = () => {
     const dt = useRef(null);
     const farming = useSelector((state) => state.farmer);
     const dispatch = useDispatch();
-    const { farmer: f, isLoading, isError, message } = useSelector((state) => state.farmer);
+    // const { farmer: f, isLoading, isError, message } = useSelector((state) => state.farmer);
 
     //my codes
     useEffect(() => {
         setFarmers(dispatch(getFarmers()));
-    }, [dispatch]);
+    }, [farmer]);
 
     //my own codes
     const openNew = () => {
@@ -104,8 +103,11 @@ export const AllFarmers = () => {
     };
 
     const deleteFarmer = () => {
-        let _farmers = farmers.filter((val) => val.id !== farmer.id);
-        setFarmers(_farmers);
+        // let _farmers = await
+        // console.log(farmer.id);
+        // dispatch(removeFarmer(farmer.id));
+        dispatch(removeFarmer(farmer.id)).unwrap();
+        setFarmers(dispatch(removeFarmer(farmer.id)).unwrap());
         setDeleteFarmerDialog(false);
         setFarmer(emptyFarmer);
         toast.current.show({ severity: "success", summary: "Successful", detail: "farmer Deleted", life: 3000 });
@@ -252,7 +254,6 @@ export const AllFarmers = () => {
 
     const farmerDialogFooter = (
         <>
-            {/* {console.log(farmer.farmers)} */}
             <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
             <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveFarmer} />
         </>
@@ -272,12 +273,10 @@ export const AllFarmers = () => {
 
     return (
         <div className="p-grid crud-demo">
-            {console.log(farming)}
             <div className="p-col-12">
                 <div className="card">
                     <Toast ref={toast} />
                     <Toolbar className="p-mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
-                    {console.log(farmers)}
                     <DataTable
                         ref={dt}
                         value={farming.farmers.data}

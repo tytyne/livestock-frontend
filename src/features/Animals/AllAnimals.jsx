@@ -1,36 +1,33 @@
-import React, { useState, useEffect, useRef } from 'react';
-import classNames from 'classnames';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Toast } from 'primereact/toast';
-import { Button } from 'primereact/button';
-import { FileUpload } from 'primereact/fileupload';
-import { Rating } from 'primereact/rating';
-import { Toolbar } from 'primereact/toolbar';
-import { InputTextarea } from 'primereact/inputtextarea';
-import { RadioButton } from 'primereact/radiobutton';
-import { InputNumber } from 'primereact/inputnumber';
-import { Dialog } from 'primereact/dialog';
-import { InputText } from 'primereact/inputtext';
-import {AnimalService} from "../../service/AnimalService"
+import React, { useState, useEffect, useRef } from "react";
+import classNames from "classnames";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import { Toast } from "primereact/toast";
+import { Button } from "primereact/button";
+import { FileUpload } from "primereact/fileupload";
+import { Rating } from "primereact/rating";
+import { Toolbar } from "primereact/toolbar";
+import { InputTextarea } from "primereact/inputtextarea";
+import { RadioButton } from "primereact/radiobutton";
+import { InputNumber } from "primereact/inputnumber";
+import { Dialog } from "primereact/dialog";
+import { InputText } from "primereact/inputtext";
+import AnimalService from "./AnimalService";
 
 export const AllAnimals = () => {
-
- 
     let emptyAnimal = {
         id: null,
-        farmerId:" ",
-        earring_num:"",
-        nid:"",
-        animal_cat:"",
-        birthdate:"",
-        birthkgs:" ",
-        parent:" ",
-        expected_exit:" ",
-        expected_exit_kgs:""
+        farmerId: " ",
+        earring_num: "",
+        nid: "",
+        animal_cat: "",
+        birthdate: "",
+        birthkgs: " ",
+        parent: " ",
+        expected_exit: " ",
+        expected_exit_kgs: "",
     };
- 
-    
+
     //my own codes
     const [animals, setAnimals] = useState(null);
     const [animalDialog, setAnimalDialog] = useState(false);
@@ -43,40 +40,31 @@ export const AllAnimals = () => {
     const toast = useRef(null);
     const dt = useRef(null);
 
-   
-
     //my codes
     useEffect(() => {
         const animalService = new AnimalService();
-        animalService.getAnimalServices().then((data)=>{
-            console.log("check dataa",data)
-            setAnimals(data.data)
-        
-        })
-
+        animalService.getAnimalServices().then((data) => {
+            console.log("check dataa", data);
+            setAnimals(data.data);
+        });
     }, []);
-
-    
 
     //my own codes
     const openNew = () => {
         setAnimal(emptyAnimal);
         setSubmitted(false);
         setAnimalDialog(true);
-    }
-
-   
+    };
 
     const hideDialog = () => {
         setSubmitted(false);
         setAnimalDialog(false);
-    }
-    
+    };
 
     //my own codes
     const hideDeleteAnimalDialog = () => {
         setDeleteAnimalDialog(false);
-    }
+    };
 
     // const hideDeleteProductsDialog = () => {
     //     setDeleteProductsDialog(false);
@@ -86,7 +74,7 @@ export const AllAnimals = () => {
 
     const hideDeleteAnimalsDialog = () => {
         setDeleteAnimalsDialog(false);
-    }
+    };
     const saveAnimal = () => {
         setSubmitted(true);
 
@@ -97,37 +85,36 @@ export const AllAnimals = () => {
                 const index = findIndexById(animal.id);
 
                 _animal[index] = _animal;
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Animal Updated', life: 3000 });
-            }
-            else {
+                toast.current.show({ severity: "success", summary: "Successful", detail: "Animal Updated", life: 3000 });
+            } else {
                 _animal.id = createId();
                 _animals.push(_animal);
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Animal Created', life: 3000 });
+                toast.current.show({ severity: "success", summary: "Successful", detail: "Animal Created", life: 3000 });
             }
 
             setAnimals(_animals);
             setAnimalDialog(false);
             setAnimal(emptyAnimal);
         }
-    }
+    };
 
     const editAnimal = (animal) => {
         setAnimal({ ...animal });
         setAnimalDialog(true);
-    }
+    };
 
     const confirmDeleteAnimal = (animal) => {
         setAnimal(animal);
         setDeleteAnimalDialog(true);
-    }
+    };
 
     const deleteAnimal = () => {
-        let _animals = animals.filter(val => val.id !== animal.id);
+        let _animals = animals.filter((val) => val.id !== animal.id);
         setAnimals(_animals);
         setDeleteAnimalDialog(false);
         setAnimal(emptyAnimal);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Animal Deleted', life: 3000 });
-    }
+        toast.current.show({ severity: "success", summary: "Successful", detail: "Animal Deleted", life: 3000 });
+    };
 
     const findIndexById = (id) => {
         let index = -1;
@@ -139,46 +126,46 @@ export const AllAnimals = () => {
         }
 
         return index;
-    }
+    };
 
     const createId = () => {
-        let id = '';
-        let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let id = "";
+        let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         for (let i = 0; i < 5; i++) {
             id += chars.charAt(Math.floor(Math.random() * chars.length));
         }
         return id;
-    }
+    };
 
     const exportCSV = () => {
         dt.current.exportCSV();
-    }
+    };
 
     const confirmDeleteSelected = () => {
         setDeleteAnimalsDialog(true);
-    }
+    };
 
     const deleteSelectedAnimals = () => {
-        let _animals = animals.filter(val => !selectedAnimals.includes(val));
+        let _animals = animals.filter((val) => !selectedAnimals.includes(val));
         setAnimals(_animals);
         setDeleteAnimalsDialog(false);
         setSelectedAnimals(null);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Animals Deleted', life: 3000 });
-    }
+        toast.current.show({ severity: "success", summary: "Successful", detail: "Animals Deleted", life: 3000 });
+    };
 
     const onCategoryChange = (e) => {
         let _animal = { ...animal };
-        _animal['category'] = e.value;
+        _animal["category"] = e.value;
         setAnimal(_animal);
-    }
+    };
 
     const onInputChange = (e, name) => {
-        const val = (e.target && e.target.value) || '';
+        const val = (e.target && e.target.value) || "";
         let _animal = { ...animal };
         _animal[`${name}`] = val;
 
         setAnimal(_animal);
-    }
+    };
 
     const onInputNumberChange = (e, name) => {
         const val = e.value || 0;
@@ -186,7 +173,7 @@ export const AllAnimals = () => {
         _animal[`${name}`] = val;
 
         setAnimal(_animal);
-    }
+    };
 
     const leftToolbarTemplate = () => {
         return (
@@ -194,8 +181,8 @@ export const AllAnimals = () => {
                 <Button label="New" icon="pi pi-plus" className="p-button-success p-mr-2" onClick={openNew} />
                 <Button label="Delete" icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected} disabled={!selectedAnimals || !selectedAnimals.length} />
             </React.Fragment>
-        )
-    }
+        );
+    };
 
     const rightToolbarTemplate = () => {
         return (
@@ -203,8 +190,8 @@ export const AllAnimals = () => {
                 <FileUpload mode="basic" accept="image/*" maxFileSize={1000000} label="Import" chooseLabel="Import" className="p-mr-2 p-d-inline-block" />
                 <Button label="Export" icon="pi pi-upload" className="p-button-help" onClick={exportCSV} />
             </React.Fragment>
-        )
-    }
+        );
+    };
 
     const earingNumberBodyTemplate = (rowData) => {
         return (
@@ -213,7 +200,7 @@ export const AllAnimals = () => {
                 {rowData.earring_num}
             </>
         );
-    }
+    };
 
     const nidBodyTemplate = (rowData) => {
         return (
@@ -222,7 +209,7 @@ export const AllAnimals = () => {
                 {rowData.lastname}
             </>
         );
-    }
+    };
     const animalCategoryBodyTemplate = (rowData) => {
         return (
             <>
@@ -230,8 +217,7 @@ export const AllAnimals = () => {
                 {rowData.animal_cat}
             </>
         );
-    }
- 
+    };
 
     const BirthdateBodyTemplate = (rowData) => {
         return (
@@ -240,7 +226,7 @@ export const AllAnimals = () => {
                 {rowData.birthdate}
             </>
         );
-    }
+    };
     const BirthKgsBodyTemplate = (rowData) => {
         return (
             <>
@@ -248,7 +234,7 @@ export const AllAnimals = () => {
                 {rowData.birthkgs}
             </>
         );
-    }
+    };
     const expectedExitBodyTemplate = (rowData) => {
         return (
             <>
@@ -256,7 +242,7 @@ export const AllAnimals = () => {
                 {rowData.expected_exit}
             </>
         );
-    }
+    };
     const expectedExitKgsBodyTemplate = (rowData) => {
         return (
             <>
@@ -264,8 +250,7 @@ export const AllAnimals = () => {
                 {rowData.expected_exit_kgs}
             </>
         );
-    }
-  
+    };
 
     const actionBodyTemplate = (rowData) => {
         return (
@@ -274,7 +259,7 @@ export const AllAnimals = () => {
                 <Button icon="pi pi-trash" className="p-button-rounded p-button-warning" onClick={() => confirmDeleteAnimal(rowData)} />
             </div>
         );
-    }
+    };
 
     const header = (
         <div className="table-header">
@@ -312,12 +297,23 @@ export const AllAnimals = () => {
                     <Toast ref={toast} />
                     <Toolbar className="p-mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
 
-                    <DataTable ref={dt} value={animals} selection={selectedAnimals} onSelectionChange={(e) => setSelectedAnimals(e.value)}
-                        dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
+                    <DataTable
+                        ref={dt}
+                        value={animals}
+                        selection={selectedAnimals}
+                        onSelectionChange={(e) => setSelectedAnimals(e.value)}
+                        dataKey="id"
+                        paginator
+                        rows={10}
+                        rowsPerPageOptions={[5, 10, 25]}
+                        className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} animals"
-                        globalFilter={globalFilter} emptyMessage="No animals found." header={header}>
-                        <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
+                        globalFilter={globalFilter}
+                        emptyMessage="No animals found."
+                        header={header}
+                    >
+                        <Column selectionMode="multiple" headerStyle={{ width: "3rem" }}></Column>
                         <Column field="earring_num" header="Earring" sortable body={earingNumberBodyTemplate}></Column>
                         <Column field="nid" header="Owner" sortable body={nidBodyTemplate}></Column>
                         <Column field="animal-cat" header="animal Cat" sortable body={animalCategoryBodyTemplate}></Column>
@@ -328,38 +324,40 @@ export const AllAnimals = () => {
                         <Column body={actionBodyTemplate}></Column>
                     </DataTable>
 
-                    <Dialog visible={animalDialog} style={{ width: '450px' }} header="Animal Details" modal className="p-fluid" footer={animalDialogFooter} onHide={hideDialog}>
-                       
+                    <Dialog visible={animalDialog} style={{ width: "450px" }} header="Animal Details" modal className="p-fluid" footer={animalDialogFooter} onHide={hideDialog}>
                         <div className="p-field">
                             <label htmlFor="earring_num">earring_num</label>
-                            <InputText id="earring_num" value={animal.earring_num} onChange={(e) => onInputChange(e, 'earring_num')} required autoFocus className={classNames({ 'p-invalid': submitted && !animal.earring_num })} />
+                            <InputText id="earring_num" value={animal.earring_num} onChange={(e) => onInputChange(e, "earring_num")} required autoFocus className={classNames({ "p-invalid": submitted && !animal.earring_num })} />
                             {submitted && !animal.earring_num && <small className="p-invalid">Animal is required.</small>}
                         </div>
                         <div className="p-field">
                             <label htmlFor="nid">nid</label>
-                            <InputText id="nid" value={animal.nid} onChange={(e) => onInputChange(e, 'nid')} required rows={3} cols={20} />
+                            <InputText id="nid" value={animal.nid} onChange={(e) => onInputChange(e, "nid")} required rows={3} cols={20} />
                         </div>
                         <div className="p-field">
                             <label htmlFor="animal_cat">animal_cat</label>
-                            <InputText id="animal_cat" value={animal.animal_cat} onChange={(e) => onInputChange(e, 'animal_cat')} required rows={3} cols={20} />
+                            <InputText id="animal_cat" value={animal.animal_cat} onChange={(e) => onInputChange(e, "animal_cat")} required rows={3} cols={20} />
                         </div>
                         <div className="expected_exit">
                             <label htmlFor="expected_exit">expected_exit</label>
-                            <InputText id="expected_exit" value={animal.expected_exit} onChange={(e) => onInputChange(e, 'expected_exit')} required rows={3} cols={20} />
-                        </div>
-                        
-                    </Dialog>
-
-                    <Dialog visible={deleteAnimalDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteAnimalDialogFooter} onHide={hideDeleteAnimalDialog}>
-                        <div className="confirmation-content">
-                            <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
-                            {animal && <span>Are you sure you want to delete <b>{animal.nid}</b>?</span>}
+                            <InputText id="expected_exit" value={animal.expected_exit} onChange={(e) => onInputChange(e, "expected_exit")} required rows={3} cols={20} />
                         </div>
                     </Dialog>
 
-                    <Dialog visible={deleteAnimalsDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteAnimalsDialogFooter} onHide={hideDeleteAnimalsDialog}>
+                    <Dialog visible={deleteAnimalDialog} style={{ width: "450px" }} header="Confirm" modal footer={deleteAnimalDialogFooter} onHide={hideDeleteAnimalDialog}>
                         <div className="confirmation-content">
-                            <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
+                            <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: "2rem" }} />
+                            {animal && (
+                                <span>
+                                    Are you sure you want to delete <b>{animal.nid}</b>?
+                                </span>
+                            )}
+                        </div>
+                    </Dialog>
+
+                    <Dialog visible={deleteAnimalsDialog} style={{ width: "450px" }} header="Confirm" modal footer={deleteAnimalsDialogFooter} onHide={hideDeleteAnimalsDialog}>
+                        <div className="confirmation-content">
+                            <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: "2rem" }} />
                             {animal && <span>Are you sure you want to delete the selected animals?</span>}
                         </div>
                     </Dialog>
@@ -367,4 +365,4 @@ export const AllAnimals = () => {
             </div>
         </div>
     );
-}
+};
