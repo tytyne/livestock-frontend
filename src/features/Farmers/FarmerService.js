@@ -15,7 +15,11 @@ const createFarmer = async (farmerData) => {
 
 const deleteFarmer = async (id) => {
     const { data } = await axios.delete(API_URL + `/farmer/${id}`, { headers: authHeader() });
-    console.log(data);
+    return data;
+};
+
+const updateFarmer = async (id, farmerData) => {
+    const { data } = await axios.put(API_URL + `/farmer/${id}`, farmerData, { headers: authHeader() });
     return data;
 };
 
@@ -23,4 +27,5 @@ export default {
     getAllFarmers,
     createFarmer,
     deleteFarmer,
+    updateFarmer,
 };

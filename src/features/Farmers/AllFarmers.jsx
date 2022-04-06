@@ -6,20 +6,16 @@ import { Column } from "primereact/column";
 import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
 import { FileUpload } from "primereact/fileupload";
-import { Rating } from "primereact/rating";
 import { Toolbar } from "primereact/toolbar";
-import { InputTextarea } from "primereact/inputtextarea";
-import { RadioButton } from "primereact/radiobutton";
-import { InputNumber } from "primereact/inputnumber";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
-import { reset, getFarmers, removeFarmer } from "./farmerSlice";
+import { getFarmers, removeFarmer, farmerUpdated } from "./farmerSlice";
 
 export const AllFarmers = () => {
     let emptyFarmer = {
-        id: null,
+        id: "",
         firstname: "",
-        lastname: null,
+        lastname: "",
         phone: "",
         gender: 0,
         district: 0,
@@ -69,27 +65,38 @@ export const AllFarmers = () => {
     const hideDeleteFarmersDialog = () => {
         setDeleteFarmersDialog(false);
     };
-    const saveFarmer = () => {
+    const updateFarmer = () => {
         setSubmitted(true);
-
-        if (farmer.firstname.trim()) {
-            let _farmers = [...farmers];
+        console.log(farmer);
+        if (farmer) {
             let _farmer = { ...farmer };
             if (farmer.id) {
                 const index = findIndexById(farmer.id);
-
-                _farmer[index] = _farmer;
+                setFarmers(dispatch(farmerUpdated(_farmer)));
+                setFarmerDialog(false);
                 toast.current.show({ severity: "success", summary: "Successful", detail: "Farmer Updated", life: 3000 });
-            } else {
-                _farmer.id = createId();
-                _farmers.push(_farmer);
-                toast.current.show({ severity: "success", summary: "Successful", detail: "Farmer Created", life: 3000 });
+                setFarmer(emptyFarmer);
+                // window.reload();
             }
-
-            setFarmers(_farmers);
-            setFarmerDialog(false);
-            setFarmer(emptyFarmer);
         }
+        // if (farmer.firstname.trim()) {
+        //     let _farmers = [...farmers];
+        //     let _farmer = { ...farmer };
+        //     if (farmer.id) {
+        //         const index = findIndexById(farmer.id);
+
+        //         _farmer[index] = _farmer;
+        //         toast.current.show({ severity: "success", summary: "Successful", detail: "Farmer Updated", life: 3000 });
+        //     } else {
+        //         _farmer.id = createId();
+        //         _farmers.push(_farmer);
+        //         toast.current.show({ severity: "success", summary: "Successful", detail: "Farmer Created", life: 3000 });
+        //     }
+
+        //     setFarmers(dispatch(updateFarmer(_farmers).unwrap()));
+        //     setFarmerDialog(false);
+        //     setFarmer(emptyFarmer);
+        // }
     };
 
     const editFarmer = (farmer) => {
@@ -106,11 +113,12 @@ export const AllFarmers = () => {
         // let _farmers = await
         // console.log(farmer.id);
         // dispatch(removeFarmer(farmer.id));
-        dispatch(removeFarmer(farmer.id)).unwrap();
+        // dispatch(removeFarmer(farmer.id)).unwrap();
         setFarmers(dispatch(removeFarmer(farmer.id)).unwrap());
         setDeleteFarmerDialog(false);
         setFarmer(emptyFarmer);
         toast.current.show({ severity: "success", summary: "Successful", detail: "farmer Deleted", life: 3000 });
+        window.reload();
     };
 
     const findIndexById = (id) => {
@@ -255,7 +263,7 @@ export const AllFarmers = () => {
     const farmerDialogFooter = (
         <>
             <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-            <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveFarmer} />
+            <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={updateFarmer} />
         </>
     );
     const deleteFarmerDialogFooter = (
@@ -302,7 +310,7 @@ export const AllFarmers = () => {
                         {/* <Column field="inventoryStatus" header="Status" body={statusBodyTemplate} sortable></Column> */}
                         <Column body={actionBodyTemplate}></Column>
                     </DataTable>
-
+                    {/* Updating Farmer dialog box  */}
                     <Dialog visible={farmerDialog} style={{ width: "450px" }} header="Farmer Details" modal className="p-fluid" footer={farmerDialogFooter} onHide={hideDialog}>
                         <div className="p-field">
                             <label htmlFor="firstname">FirstName</label>
@@ -322,7 +330,7 @@ export const AllFarmers = () => {
                             <InputText id="lastname" value={farmer.district} onChange={(e) => onInputChange(e, "district")} required rows={3} cols={20} />
                         </div>
                     </Dialog>
-
+                    {/* Deleting Farmer confirmation Dialog */}
                     <Dialog visible={deleteFarmerDialog} style={{ width: "450px" }} header="Confirm" modal footer={deleteFarmerDialogFooter} onHide={hideDeleteFarmerDialog}>
                         <div className="confirmation-content">
                             <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: "2rem" }} />

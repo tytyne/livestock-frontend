@@ -82,11 +82,10 @@ export const Dashboard = () => {
 
         if (user) {
             dispatch(getFarmers());
-            history.push("/");
-            return;
+            return history.push("/");
         }
 
-        history.push("/login");
+        return history.push("/login");
     }, [user, isError, farmer, history, message, dispatch]);
 
     if (isLoading) {
