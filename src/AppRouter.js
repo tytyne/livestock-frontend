@@ -2,9 +2,9 @@ import { Switch, Route } from "react-router-dom";
 //modified
 import { FarmerForm } from "./features/Farmers/FarmerForm";
 import { AllFarmers } from "./features/Farmers/AllFarmers";
-import { AddAnimal } from "./myPages/Animals/AddAnimal";
-import { AllAnimals } from "./myPages/Animals/AllAnimals";
-import { AllOperations } from "./myPages/operations/AllOperations";
+import { AddAnimal } from "./features/Animals/AddAnimal";
+import { AllAnimals } from "./features/Animals/AllAnimals";
+import { AllOperations } from "./features/operations/AllOperations";
 import "./App.scss";
 import Register from "./features/User/Register";
 import { Login } from "./features/User/Login";

@@ -6,5 +6,6 @@ export default configureStore({
     reducer: {
         user: userSlice,
         farmer: farmerSlice,
+        devTools: true,
     },
 });

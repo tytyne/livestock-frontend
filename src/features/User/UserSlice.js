@@ -52,31 +52,8 @@ export const login = createAsyncThunk("users/login", async (user, thunkAPI) => {
 });
 
 export const logout = createAsyncThunk("users/logout", async () => {
-    await AuthService.logout();
-});
-
-export const fetchUserBytoken = createAsyncThunk("users/fetchUserByToken", async ({ token }, thunkAPI) => {
-    try {
-        const response = await fetch(`${API_URL}/me`, {
-            method: "GET",
-            headers: {
-                Accept: "application/json",
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-            },
-        });
-        let data = await response.json();
-        console.log("data", data, response.status);
-
-        if (response.status === 200) {
-            return { ...data };
-        } else {
-            return thunkAPI.rejectWithValue(data);
-        }
-    } catch (e) {
-        console.log("Error", e.response.data);
-        return thunkAPI.rejectWithValue(e.response.data);
-    }
+    console.log("logged out");
+    AuthService.logout();
 });
 
 export const userSlice = createSlice({
@@ -99,6 +76,7 @@ export const userSlice = createSlice({
                 state.isLoading = false;
                 state.isSuccess = true;
                 state.user = action.payload;
+                console.log(action.payload);
             })
             .addCase(login.rejected, (state, action) => {
                 state.isLoading = false;

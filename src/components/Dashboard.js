@@ -16,6 +16,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { ProductService } from "../service/ProductService";
 import { EventService } from "../service/EventService";
+import { getFarmers } from "../features/Farmers/farmerSlice";
 
 const dropdownCities = [
     { name: "New York", code: "NY" },
@@ -72,30 +73,25 @@ export const Dashboard = () => {
     const dispatch = useDispatch();
 
     const { user } = useSelector((state) => state.user);
-    // const { goals, isLoading, isError, message } = useSelector((state) => state.goals);
+    const { farmer, isLoading, isError, message } = useSelector((state) => state.farmer);
 
     useEffect(() => {
-        // if (isError) {
-        //     console.log(message);
-        // }
+        if (isError) {
+            console.log(message, farmer);
+        }
 
         if (user) {
+            dispatch(getFarmers());
             return history.push("/");
         }
 
-        // dispatch(getGoals());
-        history.push("/login");
+        return history.push("/login");
+    }, [user, isError, farmer, history, message, dispatch]);
 
-        return () => {
-            // dispatch(reset());
-            console.log(user);
-        };
-    }, []);
-
-    // if (isLoading) {
-    //     return
-    //     <Spinner />;
-    // }
+    if (isLoading) {
+        return "loading ....";
+        // <Spinner />;
+    }
     const formatCurrency = (value) => {
         return value.toLocaleString("en-US", { style: "currency", currency: "USD" });
     };

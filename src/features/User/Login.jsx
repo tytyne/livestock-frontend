@@ -12,10 +12,8 @@ import AuthShell from "../../AuthShell";
 import classNames from "classnames";
 import { login, reset } from "./UserSlice";
 
-export const Login = (props) => {
+export const Login = () => {
     const [showMessage, setShowMessage] = useState(false);
-    // const [formData, setFormData] = useState({});
-
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -34,7 +32,6 @@ export const Login = (props) => {
         validationSchema: LoginSchema,
         onSubmit: async (data) => {
             dispatch(login(data));
-            // formik.resetForm();
         },
     });
 
