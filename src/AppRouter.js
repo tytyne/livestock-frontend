@@ -12,6 +12,7 @@ import { Reset } from "./features/User/Reset_password";
 import { Forgot } from "./features/User/Forgot_password";
 import AppShell from "./AppShell";
 import AppSigmaRoute from "./AppSigmaRoute";
+import AddFarm from "./features/Farm/AddFarm";
 
 export const AppRouter = () => {
     return (
@@ -27,6 +28,7 @@ export const AppRouter = () => {
                     {/* my own paths */}
                     <Route path="/addFarmer" component={FarmerForm} />
                     <Route path="/allFarmers" component={AllFarmers} />
+                    <Route path="/addFarm" component={AddFarm} />
                     <Route path="/allAnimals" component={AllAnimals} />
                     <Route path="/addAnimal" component={AddAnimal} />
                     <Route path="/allOperations" component={AllOperations} />
