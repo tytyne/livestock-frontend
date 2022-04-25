@@ -9,3 +9,6 @@ const getAllFarms = async () => {};
 const createFarm = async (farmData) => {
     const { data } = await axios.post(`${API_URL}/farm/create`, farmData, { headers: authHeader() });
 };
+export default {
+    createFarm,
+};

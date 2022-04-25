@@ -10,6 +10,14 @@ const menu = [
         ],
     },
     {
+        label: "Farm",
+        icon: "pi pi-fw pi-user",
+        items: [
+            { label: "Add Farm", icon: "pi pi-fw pi-id-card", to: "/addFarm" },
+            { label: "All Farm", icon: "pi pi-fw pi-user-edit", to: "/allFarms" },
+        ],
+    },
+    {
         label: "Animals",
         icon: "pi pi-fw pi-spinner",
         items: [

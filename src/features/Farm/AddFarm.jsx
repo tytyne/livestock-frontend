@@ -1,11 +1,16 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import classNames from "classnames";
 import { Provinces, Districts, Sectors, Cells, Villages } from "rwanda";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
+import { farmCreated } from "./farmSlice";
 
 const AddFarm = () => {
+    const dispatch = useDispatch();
+    const { farmers } = useSelector((state) => state.farmers);
+    console.log(farmers);
     const formik = useFormik({
         initialValues: {
             name: "",
@@ -19,6 +24,7 @@ const AddFarm = () => {
         },
         onSubmit: async (data) => {
             console.log(data);
+            dispatch(farmCreated(data));
         },
     });
     const isFormFieldValid = (name) => !!(formik.touched[name] && formik.errors[name]);
@@ -34,7 +40,12 @@ const AddFarm = () => {
                         <div className="p-fluid p-formgrid p-grid">
                             <div className="p-field p-col-12 p-md-6">
                                 <label htmlFor="farm_name">Farm Name</label>
-                                <InputText id="farm_name" type="text" placeholder="Name" onChange={formik.handleChange} name="farm_name" autoFocus className={classNames({ "p-invalid": isFormFieldValid("farm_name") })} />
+                                <InputText id="farm_name" type="text" value={formik.values.name} placeholder="Name" onChange={formik.handleChange} name="farm_name" autoFocus className={classNames({ "p-invalid": isFormFieldValid("farm_name") })} />
+                            </div>
+                            <div className="p-field p-col-12 p-md-3">
+                                <label htmlFor="Province">Farmers</label>
+                                <Dropdown id="province" value={formik.values.province} options={Provinces()} onChange={formik.handleChange} name="province" placeholder="Select a Province" className={classNames({ "p-invalid": isFormFieldValid("province") })} />
+                                <span className={classNames({ "p-error": isFormFieldValid("province") })}>{getFormErrorMessage("province")}</span>
                             </div>
                             <div className="p-field p-col-12 p-md-3">
                                 <label htmlFor="Province">Provinces</label>
