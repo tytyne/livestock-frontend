@@ -73,21 +73,22 @@ export const Dashboard = () => {
     const dispatch = useDispatch();
 
     const { user } = useSelector((state) => state.user);
-    const { farmer, isLoading, isError, message } = useSelector((state) => state.farmer);
-
+    const { farmer, isLoading, isError, message } = useSelector((state) => state);
+    console.log(farmer.farmers.data);
     useEffect(() => {
         if (isError) {
             console.log(message, farmer);
         }
 
         if (user) {
+            console.log(user);
             dispatch(getFarmers());
             return history.push("/");
         }
 
         return history.push("/login");
-    }, [user, isError, farmer, history, message, dispatch]);
-
+    }, []);
+    // user, isError, farmer, history, message, dispatch;
     if (isLoading) {
         return "loading ....";
         // <Spinner />;
