@@ -11,7 +11,7 @@ import { farmCreated } from "./farmSlice";
 import { Dropdown } from "primereact/dropdown";
 
 export const AddFarm = () => {
-    // const { farmer: farmerData } = useSelector((state) => state.farmers);
+    const { farmer } = useSelector((state) => state);
     const [submitted, setSubmitted] = useState(false);
     const [radioValue, setRadioValue] = useState(null);
 
@@ -31,10 +31,9 @@ export const AddFarm = () => {
         village: Yup.string().required("Village is required"),
         others: Yup.string().required("Lastname is required"),
     });
-    const farmerIds = () => {
-        // console.log(farmerData.map((x) => x));
-        return "loading";
-    };
+    // console.log();
+    const farmerIds = farmer.farmers.data;
+    console.log(farmerIds);
     const formik = useFormik({
         initialValues: {
             farmName: "",
@@ -79,8 +78,18 @@ export const AddFarm = () => {
                                 </div>
                                 <div className="p-field p-col-12 p-md-3">
                                     <label htmlFor="farmerId">farmerId</label>
-                                    {/* <Dropdown id="province" value={formik.values.farmerId} options={farmerIds()} onChange={formik.handleChange} name="farmerId}" placeholder="Select a farmerId" className={classNames({ "p-invalid": isFormFieldValid("farmerId}") })} />
-                                    <span className={classNames({ "p-error": isFormFieldValid("farmerId}") })}>{getFormErrorMessage("farmerId}")}</span> */}
+                                    <Dropdown
+                                        id="farmerId"
+                                        value={formik.values.farmerId}
+                                        optionValue={farmerIds.id}
+                                        options={farmerIds}
+                                        onChange={formik.handleChange}
+                                        optionLabel="firstname"
+                                        name="farmerId"
+                                        placeholder="Select a farmerId"
+                                        className={classNames({ "p-invalid": isFormFieldValid("farmerId}") })}
+                                    />
+                                    <span className={classNames({ "p-error": isFormFieldValid("farmerId}") })}>{getFormErrorMessage("farmerId}")}</span>
                                 </div>
                                 <div className="p-field p-col-12 p-md-3">
                                     <label htmlFor="Province">Provinces</label>

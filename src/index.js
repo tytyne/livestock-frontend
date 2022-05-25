@@ -7,15 +7,20 @@ import store from "./app/store";
 //import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from "react-router-dom";
 import ScrollToTop from "./ScrollToTop";
-import "bootstrap/dist/css/bootstrap.css";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
 
+import "bootstrap/dist/css/bootstrap.css";
+let persistor = persistStore(store);
 ReactDOM.render(
     <Provider store={store}>
-        <BrowserRouter>
-            <ScrollToTop>
-                <App />
-            </ScrollToTop>
-        </BrowserRouter>
+        <PersistGate loading={null} persistor={persistor}>
+            <BrowserRouter>
+                <ScrollToTop>
+                    <App />
+                </ScrollToTop>
+            </BrowserRouter>
+        </PersistGate>
     </Provider>,
     document.getElementById("root")
 );

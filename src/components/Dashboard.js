@@ -74,14 +74,12 @@ export const Dashboard = () => {
 
     const { user } = useSelector((state) => state.user);
     const { farmer, isLoading, isError, message } = useSelector((state) => state);
-    console.log(farmer.farmers.data);
     useEffect(() => {
         if (isError) {
             console.log(message, farmer);
         }
 
         if (user) {
-            console.log(user);
             dispatch(getFarmers());
             return history.push("/");
         }
