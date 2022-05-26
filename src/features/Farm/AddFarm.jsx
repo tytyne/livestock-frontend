@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import classNames from "classnames";
 import { InputText } from "primereact/inputtext";
+import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
 import { RadioButton } from "primereact/radiobutton";
 import { Provinces, Districts, Sectors, Cells, Villages } from "rwanda";
@@ -16,28 +17,27 @@ export const AddFarm = () => {
     const [radioValue, setRadioValue] = useState(null);
 
     const dispatch = useDispatch();
+    const farmerIds = farmer.farmers.data;
 
     const newFarming = () => {
         setSubmitted(false);
     };
     const farmerSchema = Yup.object().shape({
         farmName: Yup.string().required("Firstname is required"),
-        farmerId: Yup.string().max(16).required("Nid is required"),
-        gender: Yup.string().required("Gender is required"),
+        // farmerId: Yup.string().required("Nid is required"),
         province: Yup.string().required("Province is required"),
         district: Yup.string().required("District is required"),
         cell: Yup.string().required("Cell is required"),
         sector: Yup.string().required("Sector is required"),
         village: Yup.string().required("Village is required"),
-        others: Yup.string().required("Lastname is required"),
+        others: Yup.string().required("others is required"),
     });
     // console.log();
-    const farmerIds = farmer.farmers.data;
-    console.log(farmerIds);
+    // console.log(farmerIds);
     const formik = useFormik({
         initialValues: {
             farmName: "",
-            farmerId: "",
+            // farmerId: "",
             province: "",
             district: "",
             cell: "",
@@ -78,7 +78,7 @@ export const AddFarm = () => {
                                 </div>
                                 <div className="p-field p-col-12 p-md-3">
                                     <label htmlFor="farmerId">farmerId</label>
-                                    <Dropdown
+                                    {/* <Dropdown
                                         id="farmerId"
                                         value={formik.values.farmerId}
                                         optionValue={farmerIds.id}
@@ -88,7 +88,7 @@ export const AddFarm = () => {
                                         name="farmerId"
                                         placeholder="Select a farmerId"
                                         className={classNames({ "p-invalid": isFormFieldValid("farmerId}") })}
-                                    />
+                                    /> */}
                                     <span className={classNames({ "p-error": isFormFieldValid("farmerId}") })}>{getFormErrorMessage("farmerId}")}</span>
                                 </div>
                                 <div className="p-field p-col-12 p-md-3">
@@ -135,38 +135,12 @@ export const AddFarm = () => {
                                     />
                                     <span className={classNames({ "p-error": isFormFieldValid("village") })}>{getFormErrorMessage("village")}</span>
                                 </div>
+                                <div className="p-field p-col-12 p-md-3">
+                                    <label htmlFor="Others">Others</label>
+                                    <InputTextarea name="others" rows={5} cols={30} value={formik.values.others} onChange={formik.handleChange} />
+                                    <span className={classNames({ "p-error": isFormFieldValid("others") })}>{getFormErrorMessage("others")}</span>
+                                </div>
 
-                                <div className="card">
-                                    <h5>Gender</h5>
-                                    <div className="p-grid">
-                                        <div className="p-col-12 p-md-4">
-                                            <div className="p-field-radiobutton">
-                                                <RadioButton inputId="option1" name="gender" value="male" checked={radioValue === "male"} onChange={formik.handleChange} />
-                                                <label htmlFor="option1">male</label>
-                                            </div>
-                                        </div>
-                                        <div className="p-col-12 p-md-4">
-                                            <div className="p-field-radiobutton">
-                                                <RadioButton inputId="option2" name="gender" value="female" checked={radioValue === "female"} onChange={formik.handleChange} />
-                                                <label htmlFor="option2">female</label>
-                                            </div>
-                                        </div>
-                                        <div className="p-col-12 p-md-4">
-                                            <div className="p-field-radiobutton">
-                                                <RadioButton inputId="option3" name="gender" value="others" checked={radioValue === "others"} onChange={formik.handleChange} />
-                                                <label htmlFor="option3">others</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="p-field p-col-12 p-md-4">
-                                    <label htmlFor="farmer_cat">Farmer Category</label>
-                                    {/* <Dropdown id="farmer_cat" value={dropdown} onChange={(e) => setDropdown(e.value)} options={dropdowns} optionLabel="name" placeholder="Select One"></Dropdown> */}
-                                </div>
-                                <div className="p-field p-col-12 p-md-4">
-                                    <label htmlFor="phone">Bank Account</label>
-                                    <InputText id="phone" type="text" />
-                                </div>
                                 <Button type="submit" label="Submit"></Button>
                             </div>
                         </form>
