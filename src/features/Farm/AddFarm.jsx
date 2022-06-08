@@ -82,7 +82,7 @@ export const AddFarm = () => {
                                     </label>
                                     <select class="form-select" id="inputGroupSelect01" name="farmerId" tabIndex="-1" aria-hidden="true" value={formik.values.farmerId} onChange={formik.handleChange}>
                                         {farmerIds.map((_farmers) => (
-                                            <option key={_farmers.id} value={_farmers.id}>
+                                            <option key={_farmegrs.id} value={_farmers.id}>
                                                 {_farmers.firstname}
                                             </option>
                                         ))}
