@@ -37,7 +37,7 @@ export const AddFarm = () => {
     const formik = useFormik({
         initialValues: {
             farmName: "",
-            // farmerId: "",
+            farmerId: "",
             province: "",
             district: "",
             cell: "",
@@ -77,18 +77,17 @@ export const AddFarm = () => {
                                     <span className={classNames({ "p-error": isFormFieldValid("farmName") })}>{getFormErrorMessage("farmName")}</span>
                                 </div>
                                 <div className="p-field p-col-12 p-md-3">
-                                    <label htmlFor="farmerId">farmerId</label>
-                                    {/* <Dropdown
-                                        id="farmerId"
-                                        value={formik.values.farmerId}
-                                        optionValue={farmerIds.id}
-                                        options={farmerIds}
-                                        onChange={formik.handleChange}
-                                        optionLabel="firstname"
-                                        name="farmerId"
-                                        placeholder="Select a farmerId"
-                                        className={classNames({ "p-invalid": isFormFieldValid("farmerId}") })}
-                                    /> */}
+                                    <label class="input-group-text" htmlFor="farmerId">
+                                        farmerId
+                                    </label>
+                                    <select class="form-select" id="inputGroupSelect01" name="farmerId" tabIndex="-1" aria-hidden="true" value={formik.values.farmerId} onChange={formik.handleChange}>
+                                        {farmerIds.map((_farmers) => (
+                                            <option key={_farmers.id} value={_farmers.id}>
+                                                {_farmers.firstname}
+                                            </option>
+                                        ))}
+                                    </select>
+
                                     <span className={classNames({ "p-error": isFormFieldValid("farmerId}") })}>{getFormErrorMessage("farmerId}")}</span>
                                 </div>
                                 <div className="p-field p-col-12 p-md-3">
