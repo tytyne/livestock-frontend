@@ -32,7 +32,7 @@ export const AppRouter = () => {
                         <Route path="/addFarmer" component={FarmerForm} />
                         <Route path="/allFarmers" component={AllFarmers} />
                         <Route path="/addFarm" component={AddFarm} />
-                        {/* <Route path="/allFarmers" component={AllFarmers} /> */}
+                        <Route path="/allFarmers" component={AllFarmers} />
                         <Route path="/allAnimals" component={AllAnimals} />
                         <Route path="/addAnimal" component={AddAnimal} />
                         <Route path="/allOperations" component={AllOperations} />

@@ -24,7 +24,7 @@ export const AddFarm = () => {
     };
     const farmerSchema = Yup.object().shape({
         farmName: Yup.string().required("Firstname is required"),
-        // farmerId: Yup.string().required("Nid is required"),
+        farmerId: Yup.string().required("Nid is required"),
         province: Yup.string().required("Province is required"),
         district: Yup.string().required("District is required"),
         cell: Yup.string().required("Cell is required"),
@@ -50,6 +50,7 @@ export const AddFarm = () => {
             console.log(data);
             dispatch(farmCreated(data)).unwrap();
             setSubmitted(true);
+            formik.resetForm();
         },
     });
     const isFormFieldValid = (name) => !!(formik.touched[name] && formik.errors[name]);
@@ -77,12 +78,13 @@ export const AddFarm = () => {
                                     <span className={classNames({ "p-error": isFormFieldValid("farmName") })}>{getFormErrorMessage("farmName")}</span>
                                 </div>
                                 <div className="p-field p-col-12 p-md-3">
-                                    <label class="input-group-text" htmlFor="farmerId">
+                                    <label className="input-group-text" htmlFor="farmerId">
                                         farmerId
                                     </label>
-                                    <select class="form-select" id="inputGroupSelect01" name="farmerId" tabIndex="-1" aria-hidden="true" value={formik.values.farmerId} onChange={formik.handleChange}>
+                                    <select placeholder="select farmer" className="form-select" id="inputGroupSelect01" name="farmerId" tabIndex="-1" aria-hidden="true" value={formik.values.farmerId} onChange={formik.handleChange}>
+                                        {/* <option value=""></option> */}
                                         {farmerIds.map((_farmers) => (
-                                            <option key={_farmegrs.id} value={_farmers.id}>
+                                            <option key={_farmers.id} value={_farmers.id}>
                                                 {_farmers.firstname}
                                             </option>
                                         ))}

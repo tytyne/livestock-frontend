@@ -19,9 +19,16 @@ export const farmCreated = createAsyncThunk("farms?.push(action.payload);/create
         return thunkAPI.rejectWithValue(message);
     }
 });
-
+export const getFarms = createAsyncThunk("/check/all", async (_, thunkAPI) => {
+    try {
+        return await FarmService.getAllFarms();
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+    }
+});
 export const farmSlice = createSlice({
-    name: "farms?.push(action.payload);",
+    name: "farms",
     initialState,
     reducers: {
         reset: (state) => initialState,
@@ -41,6 +48,17 @@ export const farmSlice = createSlice({
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;
+            })
+            .addCase(getFarms.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.farms = action.payload;
+                state.message = action.payload.message;
+            })
+            .addCase(getFarms.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload.message;
             });
     },
 });
