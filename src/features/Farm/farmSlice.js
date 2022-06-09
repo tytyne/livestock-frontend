@@ -27,6 +27,24 @@ export const getFarms = createAsyncThunk("/check/all", async (_, thunkAPI) => {
         return thunkAPI.rejectWithValue(message);
     }
 });
+// delete a farm
+export const removeFarm = createAsyncThunk("farm/delete", async (id, thunkAPI) => {
+    try {
+        return await FarmService.deleteFarm(id, thunkAPI);
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+    }
+});
+// update a farm
+export const farmUpdate = createAsyncThunk("farm/update", async (farmData, thunkAPI) => {
+    try {
+        return await FarmService.updateFarm(farmData.id, farmData);
+    } catch (error) {
+        const message = (error.message && error.response.data && error.response.data.message) || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+    }
+});
 export const farmSlice = createSlice({
     name: "farms",
     initialState,

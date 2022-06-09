@@ -9,12 +9,12 @@ import { FileUpload } from "primereact/fileupload";
 import { Toolbar } from "primereact/toolbar";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
-import { getFarms } from "./farmSlice";
+import { getFarms, removeFarm, farmUpdate } from "./farmSlice";
 
-export const AllFarms = () => {
+export const FarmsTable = () => {
     let emptyFarm = {
         id: "",
-        farmName: "",
+        name: "",
         farmId: "",
         province: "",
         district: "",
@@ -74,7 +74,7 @@ export const AllFarms = () => {
             let _farm = { ...farm };
             if (farm.id) {
                 const index = findIndexById(farm.id);
-                setFarms(dispatch(farmUpdated(_farm)));
+                setFarms(dispatch(farmUpdate(_farm)));
                 setFarmDialog(false);
                 toast.current.show({ severity: "success", summary: "Successful", detail: "Farm Updated", life: 3000 });
                 setFarm(emptyFarm);
@@ -200,11 +200,12 @@ export const AllFarms = () => {
         );
     };
 
-    const firstnameBodyTemplate = (rowData) => {
+    const farmNameBodyTemplate = (rowData) => {
         return (
             <>
-                <span className="p-column-title">Firstname</span>
-                {rowData.firstname}
+                <span className="p-column-title">FarmName</span>
+                {/* {console.log(rowData)} */}
+                {rowData.name}
             </>
         );
     };
@@ -304,7 +305,7 @@ export const AllFarms = () => {
                         header={header}
                     >
                         <Column selectionMode="multiple" headerStyle={{ width: "3rem" }}></Column>
-                        <Column field="firstname" header="Firstname" sortable body={firstnameBodyTemplate}></Column>
+                        <Column field="firstname" header="Firstname" sortable body={farmNameBodyTemplate}></Column>
                         <Column field="lastname" header="Lastname" sortable body={lastnameBodyTemplate}></Column>
                         <Column field="phone" header="Phone" sortable body={phoneBodyTemplate}></Column>
                         <Column field="gender" header="Gender" sortable body={genderBodyTemplate}></Column>

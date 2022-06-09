@@ -23,7 +23,7 @@ export const AddFarm = () => {
         setSubmitted(false);
     };
     const farmerSchema = Yup.object().shape({
-        farmName: Yup.string().required("Firstname is required"),
+        name: Yup.string().required("Firstname is required"),
         farmerId: Yup.string().required("Nid is required"),
         province: Yup.string().required("Province is required"),
         district: Yup.string().required("District is required"),
@@ -36,7 +36,7 @@ export const AddFarm = () => {
     // console.log(farmerIds);
     const formik = useFormik({
         initialValues: {
-            farmName: "",
+            name: "",
             farmerId: "",
             province: "",
             district: "",
@@ -73,9 +73,9 @@ export const AddFarm = () => {
                             <h5>Farm Form</h5>
                             <div className="p-fluid p-formgrid p-grid">
                                 <div className="p-field p-col-12 p-md-6">
-                                    <label htmlFor="farmName">Farm Name</label>
-                                    <InputText id="farmName" type="text" value={formik.values.farmName} onChange={formik.handleChange} name="farmName" autoFocus className={classNames({ "p-invalid": isFormFieldValid("farmName") })} />
-                                    <span className={classNames({ "p-error": isFormFieldValid("farmName") })}>{getFormErrorMessage("farmName")}</span>
+                                    <label htmlFor="name">Farm Name</label>
+                                    <InputText id="name" type="text" value={formik.values.name} onChange={formik.handleChange} name="name" autoFocus className={classNames({ "p-invalid": isFormFieldValid("name") })} />
+                                    <span className={classNames({ "p-error": isFormFieldValid("name") })}>{getFormErrorMessage("name")}</span>
                                 </div>
                                 <div className="p-field p-col-12 p-md-3">
                                     <label className="input-group-text" htmlFor="farmerId">

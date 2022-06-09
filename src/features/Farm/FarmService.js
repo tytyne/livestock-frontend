@@ -13,7 +13,18 @@ const createFarm = async (farmData) => {
     const { data } = await axios.post(`${API_URL}/create`, farmData, { headers: authHeader() });
     return data;
 };
+const deleteFarm = async (id) => {
+    const { data } = await axios.delete(`${API_URL}/${id}`, { headers: authHeader() });
+    return data;
+};
+
+const updateFarm = async (id, farmData) => {
+    const { data } = await axios.put(`${API_URL}/${id}`, { headers: authHeader() });
+    return data;
+};
 export default {
     createFarm,
     getAllFarms,
+    updateFarm,
+    deleteFarm,
 };

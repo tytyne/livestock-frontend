@@ -14,6 +14,7 @@ import AppShell from "./AppShell";
 import AppSigmaRoute from "./AppSigmaRoute";
 import { AddFarm } from "./features/Farm/AddFarm";
 import { useSelector } from "react-redux";
+import { FarmsTable } from "./features/Farm/FarmsTable";
 
 export const AppRouter = () => {
     const { user } = useSelector((state) => state.user);
@@ -32,7 +33,7 @@ export const AppRouter = () => {
                         <Route path="/addFarmer" component={FarmerForm} />
                         <Route path="/allFarmers" component={AllFarmers} />
                         <Route path="/addFarm" component={AddFarm} />
-                        <Route path="/allFarmers" component={AllFarmers} />
+                        <Route path="/allFarms" component={FarmsTable} />
                         <Route path="/allAnimals" component={AllAnimals} />
                         <Route path="/addAnimal" component={AddAnimal} />
                         <Route path="/allOperations" component={AllOperations} />
