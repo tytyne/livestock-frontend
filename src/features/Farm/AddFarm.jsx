@@ -158,3 +158,5 @@ export const AddFarm = () => {
         </div>
     );
 };
+
+export default AddFarm;
