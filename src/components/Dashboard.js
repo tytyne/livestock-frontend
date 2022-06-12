@@ -83,7 +83,6 @@ export const Dashboard = () => {
             dispatch(getFarmers());
             return history.push("/");
         }
-
         return history.push("/login");
     }, []);
     // user, isError, farmer, history, message, dispatch;

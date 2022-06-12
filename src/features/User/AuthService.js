@@ -32,6 +32,7 @@ const reset = (Password, ConfirmPassword, token) => {
 
 const logout = () => {
     localStorage.removeItem("user");
+    localStorage.clear();
 };
 
 export default {

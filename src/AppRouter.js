@@ -1,4 +1,5 @@
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useHistory } from "react-router-dom";
+import { decode } from "jsonwebtoken";
 //modified
 import { FarmerForm } from "./features/Farmers/FarmerForm";
 import { AllFarmers } from "./features/Farmers/AllFarmers";
@@ -13,11 +14,23 @@ import { Forgot } from "./features/User/Forgot_password";
 import AppShell from "./AppShell";
 import AppSigmaRoute from "./AppSigmaRoute";
 import { AddFarm } from "./features/Farm/AddFarm";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { FarmsTable } from "./features/Farm/FarmsTable";
+import { logout } from "./features/User/UserSlice";
 
 export const AppRouter = () => {
-    const { user } = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const token = JSON.parse(localStorage.getItem("user"));
+    if (token.token) {
+        const decodedToken = decode(token.token);
+
+        if (decodedToken.exp * 1000 < new Date().getTime()) {
+            dispatch(logout());
+            history.push("/login");
+            // event.preventDefault();
+        }
+    }
     return (
         <>
             {
