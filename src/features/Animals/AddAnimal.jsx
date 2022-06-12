@@ -108,47 +108,7 @@ export const AddAnimal = () => {
                                 <label htmlFor="state">Expected Exit Kgs</label>
                                 {/* <Dropdown id="state" name="expectedExitkgs" onChange={formik.handleChange} optionLabel="name" options={dropdownItems} placeholder="Select One"></Dropdown> */}
                             </div>
-                            {/* 
-                        <div className="p-field p-col-12 p-md-3">
-                            <label htmlFor="state">Sector</label>
-                            <Dropdown id="state" value={dropdownItem} onChange={(e) => setDropdownItem(e.value)} options={dropdownItems} optionLabel="name" placeholder="Select One"></Dropdown>
-                        </div> */}
-                            {/* <div className="card">
-                            <h5>Gender</h5>
-                            <div className="p-grid">
-                                <div className="p-col-12 p-md-4">
-                                    <div className="p-field-radiobutton">
-                                        <RadioButton inputId="option1" name="option" value="male" checked={radioValue === "male"} onChange={(e) => setRadioValue(e.value)} />
-                                        <label htmlFor="option1">male</label>
-                                    </div>
-                                </div>
-                                <div className="p-col-12 p-md-4">
-                                    <div className="p-field-radiobutton">
-                                        <RadioButton inputId="option2" name="option" value="female" checked={radioValue === "female"} onChange={(e) => setRadioValue(e.value)} />
-                                        <label htmlFor="option2">female</label>
-                                    </div>
-                                </div>
-                                <div className="p-col-12 p-md-4">
-                                    <div className="p-field-radiobutton">
-                                        <RadioButton inputId="option3" name="option" value="others" checked={radioValue === "others"} onChange={(e) => setRadioValue(e.value)} />
-                                        <label htmlFor="option3">others</label>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div className="p-field p-col-12 p-md-4">
-                            <label htmlFor="state">Farmer Category</label>
-                            <Dropdown id="state" value={dropdownItem} onChange={(e) => setDropdownItem(e.value)} options={dropdownItems} optionLabel="name" placeholder="Select One"></Dropdown>
-                        </div>
-                        <div className="p-field p-col-12 p-md-4">
-                            <label htmlFor="phone">Bank Account</label>
-                            <InputText id="phone" type="text" />
-                        </div> */}
-                            {/* <div className="p-field p-col-12 p-md-4">
-                            <label htmlFor="state">Sector</label>
-                            <Dropdown id="state" value={dropdownItem} onChange={(e) => setDropdownItem(e.value)} options={dropdownItems} optionLabel="name" placeholder="Select One"></Dropdown>
-                        </div> */}
+
                             <Button type="submit" label="Submit"></Button>
                         </div>
                     </form>

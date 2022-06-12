@@ -42,11 +42,11 @@ export const AllAnimals = () => {
 
     //my codes
     useEffect(() => {
-        const animalService = new AnimalService();
-        animalService.getAnimalServices().then((data) => {
-            console.log("check dataa", data);
-            setAnimals(data.data);
-        });
+        // const animalService = new AnimalService();
+        // animalService.getAnimalServices().then((data) => {
+        //     console.log("check dataa", data);
+        //     setAnimals(data.data);
+        // });
     }, []);
 
     //my own codes
