@@ -5,16 +5,14 @@ import { Column } from "primereact/column";
 import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
 import { FileUpload } from "primereact/fileupload";
-import { Rating } from "primereact/rating";
 import { Toolbar } from "primereact/toolbar";
-import { InputTextarea } from "primereact/inputtextarea";
-import { RadioButton } from "primereact/radiobutton";
-import { InputNumber } from "primereact/inputnumber";
+
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
-import AnimalService from "./AnimalService";
-
+import { useDispatch, useSelector } from "react-redux";
+import { getAnimals } from "./animalSlice";
 export const AllAnimals = () => {
+    const animaling = useSelector((state) => state.animal);
     let emptyAnimal = {
         id: null,
         farmerId: " ",
@@ -39,15 +37,11 @@ export const AllAnimals = () => {
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
     const dt = useRef(null);
-
+    const dispatch = useDispatch();
     //my codes
     useEffect(() => {
-        // const animalService = new AnimalService();
-        // animalService.getAnimalServices().then((data) => {
-        //     console.log("check dataa", data);
-        //     setAnimals(data.data);
-        // });
-    }, []);
+        setAnimals(dispatch(getAnimals()));
+    }, [animal]);
 
     //my own codes
     const openNew = () => {
@@ -299,7 +293,7 @@ export const AllAnimals = () => {
 
                     <DataTable
                         ref={dt}
-                        value={animals}
+                        value={animaling.animals.data}
                         selection={selectedAnimals}
                         onSelectionChange={(e) => setSelectedAnimals(e.value)}
                         dataKey="id"

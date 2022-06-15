@@ -75,7 +75,6 @@ export const farmerSlice = createSlice({
             .addCase(createFarmer.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                console.log(action.payload);
                 state?.farmers?.push(action.payload);
             })
             .addCase(createFarmer.rejected, (state, action) => {

@@ -10,7 +10,7 @@ const initialState = {
 };
 
 // Create new farmer
-export const createAnimal = createAsyncThunk("farmer/create", async (animalData, thunkAPI) => {
+export const createAnimal = createAsyncThunk("animal/create", async (animalData, thunkAPI) => {
     try {
         const { data } = await animalService.createAnimalServices(animalData);
         console.log(data);
@@ -55,7 +55,7 @@ export const animalSlice = createSlice({
             .addCase(createAnimal.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.animals.push(action.payload);
+                state.animals?.push(action.payload);
             })
             .addCase(createAnimal.rejected, (state, action) => {
                 state.isLoading = false;

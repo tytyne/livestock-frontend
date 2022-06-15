@@ -6,11 +6,13 @@ import storage from "redux-persist/lib/storage";
 import userSlice from "../features/User/UserSlice";
 import farmerSlice from "../features/Farmers/farmerSlice";
 import farmSlice from "../features/Farm/farmSlice";
+import animalSlice from "../features/Animals/animalSlice";
 
 const reducers = combineReducers({
     user: userSlice,
     farmer: farmerSlice,
     farm: farmSlice,
+    animal: animalSlice,
 });
 
 const persistConfig = {
