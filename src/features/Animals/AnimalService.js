@@ -14,8 +14,13 @@ const createAnimalServices = async (animalData) => {
     console.log("check all data", data);
     return data;
 };
+const deleteAnimalServices = async (id) => {
+    const { data } = await axios.post(API_URL + `/animal/${id}`, { headers: authHeader() });
+    return data;
+};
 
 export default {
     getAnimalServices,
     createAnimalServices,
+    getAnimalServices,
 };
