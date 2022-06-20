@@ -22,7 +22,6 @@ export const AppRouter = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const token = JSON.parse(localStorage.getItem("user"));
-    console.log(token);
     if (token == null) {
         history.push("/login");
     } else if (token.token) {
@@ -30,8 +29,6 @@ export const AppRouter = () => {
 
         if (decodedToken.exp * 1000 < new Date().getTime()) {
             dispatch(logout());
-            // console.log("check");
-            // event.preventDefault();
         }
     }
     return (

@@ -13,7 +13,7 @@ const createAnimalServices = async (animalData) => {
     return data;
 };
 const deleteAnimalServices = async (id) => {
-    const { data } = await axios.post(API_URL + `/animal/${id}`, { headers: authHeader() });
+    const { data } = await axios.delete(API_URL + `/animal/${id}`, { headers: authHeader() });
     return data;
 };
 

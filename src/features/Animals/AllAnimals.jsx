@@ -10,7 +10,7 @@ import { Toolbar } from "primereact/toolbar";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { useDispatch, useSelector } from "react-redux";
-import { getAnimals } from "./animalSlice";
+import { getAnimals, removeAnimal } from "./animalSlice";
 export const AllAnimals = () => {
     const animaling = useSelector((state) => state.animal);
     let emptyAnimal = {
@@ -103,8 +103,9 @@ export const AllAnimals = () => {
     };
 
     const deleteAnimal = () => {
-        let _animals = animals.filter((val) => val.id !== animal.id);
-        setAnimals(_animals);
+        // let _animals = animals.filter((val) => val.id !== animal.id);
+        // setAnimals(_animals);
+        setAnimals(dispatch(removeAnimal(animal.id)).unwrap());
         setDeleteAnimalDialog(false);
         setAnimal(emptyAnimal);
         toast.current.show({ severity: "success", summary: "Successful", detail: "Animal Deleted", life: 3000 });

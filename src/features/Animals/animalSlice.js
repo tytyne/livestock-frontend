@@ -32,14 +32,14 @@ export const getAnimals = createAsyncThunk("animals/getAll", async (_, thunkAPI)
 });
 
 // Delete animals
-// export const removeFarmer = createAsyncThunk("animals/delete", async (id, thunkAPI) => {
-//     try {
-//         return await animalService.deleteFarmer(id);
-//     } catch (error) {
-//         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
-//         return thunkAPI.rejectWithValue(message);
-//     }
-// });
+export const removeAnimal = createAsyncThunk("animals/delete", async (id, thunkAPI) => {
+    try {
+        return await animalService.deleteAnimalServices(id);
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+    }
+});
 
 export const animalSlice = createSlice({
     name: "animal",
@@ -75,6 +75,20 @@ export const animalSlice = createSlice({
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;
+            })
+            .addCase(removeAnimal.pending, (state, action) => {
+                state.isLoading = true;
+            })
+            .addCase(removeAnimal.rejected, (state, action) => {
+                state.isLoading = false;
+                state.message = action.payload;
+                state.isError = true;
+            })
+            .addCase(removeAnimal.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                console.log(state.farmers, action.payload);
+                state.farmers = state?.farmers?.filter((farmer) => farmer.id !== action.payload.id);
             });
     },
 });
