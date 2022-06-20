@@ -110,10 +110,6 @@ export const AllFarmers = () => {
     };
 
     const deleteFarmer = () => {
-        // let _farmers = await
-        // console.log(farmer.id);
-        // dispatch(removeFarmer(farmer.id));
-        // dispatch(removeFarmer(farmer.id)).unwrap();
         setFarmers(dispatch(removeFarmer(farmer.id)).unwrap());
         setDeleteFarmerDialog(false);
         setFarmer(emptyFarmer);
