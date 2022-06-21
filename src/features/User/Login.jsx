@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
@@ -116,6 +116,8 @@ export const Login = () => {
                         </div>
                     </div>
                 )}
+                <Link to="/register">Register</Link>
+                <Link to="/forgot-password">Forgot Password</Link>
             </AuthShell>
         </>
     );
