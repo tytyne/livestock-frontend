@@ -13,29 +13,18 @@ const initialState = {
     message: "",
 };
 
-export const signupUser = createAsyncThunk("users/signupUser", async ({ name, email, password }, thunkAPI) => {
+export const signupUser = createAsyncThunk("users/signupUser", async ({ firstname, lastname, username, occupation, email, password }, thunkAPI) => {
     try {
-        const response = await fetch(`${API_URL}/signup`, {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                name,
-                email,
-                password,
-            }),
-        });
+        const response = await AuthService.register({ firstname, lastname, username, occupation, email, password });
         let data = await response.json();
         console.log("data", data);
-
-        if (response.status === 200) {
-            localStorage.setItem("token", data.token);
-            return { ...data, username: name, email: email };
-        } else {
-            return thunkAPI.rejectWithValue(data);
-        }
+        return data;
+        // if (response.status === 200) {
+        //     localStorage.setItem("token", data.token);
+        //     return { ...data, firstname, username, email: email };
+        // } else {
+        //     return thunkAPI.rejectWithValue(data);
+        // }
     } catch (e) {
         console.log("Error", e.response.data);
         return thunkAPI.rejectWithValue(e.response.data);
