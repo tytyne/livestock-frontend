@@ -1,4 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import classNames from "classnames";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import Form from "react-validation/build/form";
@@ -8,85 +11,44 @@ import AuthShell from "../../AuthShell";
 import { useHistory } from "react-router-dom";
 import { userSelector, reset, signupUser } from "./UserSlice";
 
-const required = (value) => {
-    if (!value) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                This field is required!
-            </div>
-        );
-    }
-};
 const Register = () => {
     const history = useHistory();
     const form = useRef();
     const checkBtn = useRef();
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [firstname, setFirstname] = useState("");
-    const [lastname, setLastname] = useState("");
-    const [password, setPassword] = useState("");
-    const [occupation, setOccupation] = useState("");
     const [successful, setSuccessful] = useState(false);
     // const { message } = useSelector((state) => state.message);
     const dispatch = useDispatch();
     const { isFetching, isSuccess, isError, errorMessage } = useSelector(userSelector);
 
-    const onChangeUsername = (e) => {
-        const username = e.target.value;
-        setUsername(username);
-    };
+    const registerFormSchema = Yup.object().shape({
+        firstname: Yup.string().required("Firstname is required"),
+        lastname: Yup.string().required("Lastname is required"),
+        username: Yup.string().required("Username is required"),
+        email: Yup.string().email().required("Email is required"),
+        password: Yup.string().required("Password is required"),
+        occupation: Yup.string().required("Occupation is required"),
+    });
 
-    const onChangeEmail = (e) => {
-        const email = e.target.value;
-        setEmail(email);
-    };
-    const onChangeFirstname = (e) => {
-        const firstname = e.target.value;
-        setFirstname(firstname);
-    };
-    const onChangeLastname = (e) => {
-        const lastname = e.target.value;
-        setLastname(lastname);
-    };
-
-    const onChangePassword = (e) => {
-        const password = e.target.value;
-        setPassword(password);
-    };
-
-    const onChangeOccupation = (e) => {
-        const occupation = e.target.value;
-        setOccupation(occupation);
-    };
-
-    const handleRegister = (e) => {
-        e.preventDefault();
-
-        setSuccessful(false);
-
-        form.current.validateAll();
-
-        if (checkBtn.current.context._errors.length === 0) {
-            dispatch(signupUser(firstname, lastname, username, email, password, occupation))
-                .then(() => {
-                    setSuccessful(true);
-                })
-                .catch(() => {
-                    setSuccessful(false);
-                });
-        }
-    };
-    useEffect(() => {
-        if (isError) {
-            // toast.error(errorMessage);
-            dispatch(reset());
-        }
-        if (isSuccess) {
-            dispatch(reset());
-            history.push("/");
-        }
-    }, [isError, isSuccess]);
+    const formik = useFormik({
+        initialValues: {
+            firstname: "",
+            lastname: "",
+            username: "",
+            occupation: "",
+            password: "",
+            email: "",
+        },
+        validationSchema: registerFormSchema,
+        onSubmit: async (data) => {
+            try {
+                console.log(data);
+                dispatch(signupUser(data));
+                setSuccessful(true);
+            } catch (error) {
+                setSuccessful(false);
+            }
+        },
+    });
     return (
         <>
             <AuthShell>
@@ -98,37 +60,37 @@ const Register = () => {
                                 <h4>Create Account</h4>
                             </center>
 
-                            <Form onSubmit={handleRegister} ref={form}>
+                            <Form onSubmit={formik.handleSubmit}>
                                 {!successful && (
                                     <div className="card">
                                         <div className="p-fluid p-formgrid p-grid">
                                             <div className="p-field p-col-12 p-md-12">
                                                 <label htmlFor="firstname">Firstname</label>
-                                                <InputText id="firstname" type="text" name="firstname" value={firstname} onChange={onChangeFirstname} validations={[required]} placeholder="FirstName" />
+                                                <InputText id="firstname" type="text" name="firstname" value={formik.values.firstname} onChange={formik.handleChange} placeholder="FirstName" />
                                             </div>
                                             <div className="p-field p-col-12 p-md-12">
                                                 <label htmlFor="lastname">Lastname</label>
-                                                <InputText id="lastname" type="text" name="lastname" value={lastname} onChange={onChangeLastname} validations={[required]} placeholder="LastName" />
+                                                <InputText id="lastname" type="text" name="lastname" value={formik.values.lastname} onChange={formik.handleChange} placeholder="LastName" />
                                             </div>
                                             <div className="p-field p-col-12 p-md-12">
                                                 <label htmlFor="username">Username</label>
-                                                <InputText id="username" type="input" name="username" value={username} onChange={onChangeUsername} validations={[required]} placeholder="Username" />
+                                                <InputText id="username" type="input" name="username" value={formik.values.username} onChange={formik.handleChange} placeholder="Username" />
                                             </div>
                                             <div className="p-field p-col-12 p-md-12">
                                                 <label htmlFor="email">Email</label>
-                                                <InputText id="email" type="email" name="email" value={email} onChange={onChangeEmail} validations={[required]} placeholder="Email address" />
+                                                <InputText id="email" type="email" name="email" value={formik.values.email} onChange={formik.handleChange} placeholder="Email address" />
                                             </div>
                                             <div className="p-field p-col-12 p-md-12">
                                                 <label htmlFor="password">password</label>
-                                                <InputText id="password" type="password" name="password" value={password} onChange={onChangePassword} validations={[required]} placeholder="Password" />
+                                                <InputText id="password" type="password" name="password" value={formik.values.password} onChange={formik.handleChange} placeholder="Password" />
                                             </div>
 
                                             <div className="p-field p-col-12 p-md-12">
                                                 <label htmlFor="occupation">Occupation</label>
-                                                <InputText id="occupation" type="text" name="occupation" value={occupation} onChange={onChangeOccupation} validations={[required]} placeholder="Occupation" />
+                                                <InputText id="occupation" type="text" name="occupation" value={formik.values.occupation} onChange={formik.handleChange} placeholder="Occupation" />
                                             </div>
                                             <div className="p-field p-col-12 p-md-12">
-                                                <Button label="Submit"></Button>
+                                                <Button type="submit" label="Submit"></Button>
                                                 <center>
                                                     <h6>
                                                         Have an account? <span>Login</span>

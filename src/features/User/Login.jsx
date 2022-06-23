@@ -106,10 +106,10 @@ export const Login = () => {
                                     <Link to="/forgot-password">Forgot Password?</Link>
                                     <Button type="submit" label="Submit" />
 
-                                    <div class="grid">
-                                        <div class="col-4 md:col-4 lg:col-2">A</div>
+                                    <div className="grid">
+                                        <div className="col-4 md:col-4 lg:col-2">A</div>
 
-                                        <div class="col-4 md:col-4 lg:col-2">
+                                        <div className="col-4 md:col-4 lg:col-2">
                                             <Link to="/register">Register</Link>
                                         </div>
                                     </div>
