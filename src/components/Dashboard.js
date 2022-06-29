@@ -106,75 +106,75 @@ export const Dashboard = () => {
         <div className="p-grid p-fluid dashboard">
             <div className="p-col-12 p-lg-4">
                 <div className="card summary">
-                    <span className="title">Users</span>
-                    <span className="detail">Number of visitors</span>
-                    <span className="count visitors">12</span>
+                    <span className="title">Farmers</span>
+                    <span className="detail">Number of Farmers</span>
+                    <span className="count visitors">4</span>
                 </div>
             </div>
             <div className="p-col-12 p-lg-4">
                 <div className="card summary">
-                    <span className="title">Sales</span>
-                    <span className="detail">Number of purchases</span>
-                    <span className="count purchases">534</span>
+                    <span className="title">Animals</span>
+                    <span className="detail">Number of Animals</span>
+                    <span className="count purchases">5</span>
                 </div>
             </div>
             <div className="p-col-12 p-lg-4">
                 <div className="card summary">
-                    <span className="title">Revenue</span>
-                    <span className="detail">Income for today</span>
-                    <span className="count revenue">$3,200</span>
+                    <span className="title">Farms</span>
+                    <span className="detail">Number of Farms</span>
+                    <span className="count revenue">3</span>
                 </div>
             </div>
 
             <div className="p-col-12 p-md-6 p-xl-3">
                 <div className="highlight-box">
                     <div className="initials" style={{ backgroundColor: "#007be5", color: "#00448f" }}>
-                        <span>TV</span>
+                        <span>EA</span>
                     </div>
                     <div className="highlight-details ">
                         <i className="pi pi-search"></i>
-                        <span>Total Queries</span>
-                        <span className="count">523</span>
+                        <span>East</span>
+                        <span className="count">5</span>
                     </div>
                 </div>
             </div>
             <div className="p-col-12 p-md-6 p-xl-3">
                 <div className="highlight-box">
                     <div className="initials" style={{ backgroundColor: "#ef6262", color: "#a83d3b" }}>
-                        <span>TI</span>
+                        <span>WE</span>
                     </div>
                     <div className="highlight-details ">
                         <i className="pi pi-question-circle"></i>
-                        <span>Total Issues</span>
-                        <span className="count">81</span>
+                        <span>West</span>
+                        <span className="count">1</span>
                     </div>
                 </div>
             </div>
             <div className="p-col-12 p-md-6 p-xl-3">
                 <div className="highlight-box">
                     <div className="initials" style={{ backgroundColor: "#20d077", color: "#038d4a" }}>
-                        <span>OI</span>
+                        <span>NO</span>
                     </div>
                     <div className="highlight-details ">
                         <i className="pi pi-filter"></i>
-                        <span>Open Issues</span>
-                        <span className="count">21</span>
+                        <span>North</span>
+                        <span className="count">2</span>
                     </div>
                 </div>
             </div>
             <div className="p-col-12 p-md-6 p-xl-3">
                 <div className="highlight-box">
                     <div className="initials" style={{ backgroundColor: "#f9c851", color: "#b58c2b" }}>
-                        <span>CI</span>
+                        <span>So</span>
                     </div>
                     <div className="highlight-details ">
                         <i className="pi pi-check"></i>
-                        <span>Closed Issues</span>
-                        <span className="count">60</span>
+                        <span>South</span>
+                        <span className="count">6</span>
                     </div>
                 </div>
             </div>
-
+            {/* 
             <div className="p-col-12 p-md-6 p-lg-4">
                 <Panel header="Tasks" style={{ height: "100%" }}>
                     <ul className="task-list">
@@ -210,9 +210,9 @@ export const Dashboard = () => {
                         </li>
                     </ul>
                 </Panel>
-            </div>
+            </div> */}
 
-            <div className="p-col-12 p-md-6 p-lg-4 p-fluid contact-form">
+            {/* <div className="p-col-12 p-md-6 p-lg-4 p-fluid contact-form">
                 <Panel header="Contact Us">
                     <div className="p-grid">
                         <div className="p-col-12">
@@ -232,9 +232,9 @@ export const Dashboard = () => {
                         </div>
                     </div>
                 </Panel>
-            </div>
+            </div> */}
 
-            <div className="p-col-12 p-lg-4 contacts">
+            {/* <div className="p-col-12 p-lg-4 contacts">
                 <Panel header="Contacts">
                     <ul>
                         <li>
@@ -267,11 +267,11 @@ export const Dashboard = () => {
                         </li>
                     </ul>
                 </Panel>
-            </div>
+            </div> */}
 
             <div className="p-col-12 p-lg-6">
                 <div className="card">
-                    <h1 style={{ fontSize: "16px" }}>Recent Sales</h1>
+                    <h1 style={{ fontSize: "16px" }}>Recent Farmers</h1>
                     <DataTable value={products} className="p-datatable-customers" rows={5} style={{ marginBottom: "20px" }} paginator>
                         <Column header="Logo" body={(data) => <img src={`assets/demo/images/product/${data.image}`} alt={data.image} width="50" />}></Column>
                         <Column field="name" header="Name" sortable></Column>

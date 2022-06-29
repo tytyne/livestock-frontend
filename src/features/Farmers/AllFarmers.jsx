@@ -228,14 +228,14 @@ export const AllFarmers = () => {
             </>
         );
     };
-    const districtBodyTemplate = (rowData) => {
-        return (
-            <>
-                <span className="p-column-title">Distict</span>
-                {rowData.district}
-            </>
-        );
-    };
+    // const districtBodyTemplate = (rowData) => {
+    //     return (
+    //         <>
+    //             <span className="p-column-title">Distict</span>
+    //             {rowData.district}
+    //         </>
+    //     );
+    // };
 
     const actionBodyTemplate = (rowData) => {
         return (
@@ -302,7 +302,7 @@ export const AllFarmers = () => {
                         <Column field="lastname" header="Lastname" sortable body={lastnameBodyTemplate}></Column>
                         <Column field="phone" header="Phone" sortable body={phoneBodyTemplate}></Column>
                         <Column field="gender" header="Gender" sortable body={genderBodyTemplate}></Column>
-                        <Column field="district" header="District" sortable body={districtBodyTemplate}></Column>
+                        {/* <Column field="district" header="District" sortable body={districtBodyTemplate}></Column> */}
                         {/* <Column field="inventoryStatus" header="Status" body={statusBodyTemplate} sortable></Column> */}
                         <Column body={actionBodyTemplate}></Column>
                     </DataTable>

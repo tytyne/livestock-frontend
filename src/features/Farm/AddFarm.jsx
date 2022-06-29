@@ -77,9 +77,9 @@ export const AddFarm = () => {
                                     <InputText id="name" type="text" value={formik.values.name} onChange={formik.handleChange} name="name" autoFocus className={classNames({ "p-invalid": isFormFieldValid("name") })} />
                                     <span className={classNames({ "p-error": isFormFieldValid("name") })}>{getFormErrorMessage("name")}</span>
                                 </div>
-                                <div className="p-field p-col-12 p-md-3">
-                                    <label className="input-group-text" htmlFor="farmerId">
-                                        farmerId
+                                <div className="p-field p-col-12 p-md-6">
+                                    <label className="input-group-text" htmlFor="farmerName">
+                                        farmer Name
                                     </label>
                                     <select placeholder="select farmer" className="form-select" id="inputGroupSelect01" name="farmerId" tabIndex="-1" aria-hidden="true" value={formik.values.farmerId} onChange={formik.handleChange}>
                                         {/* <option value=""></option> */}
